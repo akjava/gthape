@@ -1,3 +1,5 @@
+package com.akjava.gwt.gthape.client.ape;
+
 /*
 Copyright (c) 2006, 2007 Alec Cove
 
@@ -27,9 +29,11 @@ dont involve non-collidable constraints
 - container should be automatic, but settable
 */
 
-package org.cove.ape {
 
-import flash.display.DisplayObjectContainer;
+
+import java.util.ArrayList;
+
+import com.akjava.gwt.gthape.display.DisplayObjectContainer;
 
 /**
 * The main engine class.
@@ -42,7 +46,7 @@ protected static Vector force ;
 /**@private */
 protected static Vector masslessForce ;
 
-private static ArrayList groups ;
+private static ArrayList<Group> groups ;
 private static int numGroups ;
 private static double timeStep ;
 
@@ -69,12 +73,12 @@ public static void init(double dt){
 timeStep = dt * dt;
 
 numGroups = 0;
-groups = new Array();
+groups = new ArrayList<Group>();
 
 force = new Vector(0,0);
 masslessForce = new Vector(0,0);
 
-damping = 1;
+_damping = 1;
 
 _constraintCycles = 0;
 _constraintCollisionCycles = 1;
@@ -216,8 +220,8 @@ masslessForce.plusEquals(v);
 *
 */
 public static void addGroup(Group g){
-groups.push(g);
-g.isParented = true;
+groups.add(g);
+g.isParented(true);
 numGroups++;
 g.init();
 }
@@ -231,8 +235,8 @@ public static void removeGroup(Group g){
 int gpos = groups.indexOf(g);
 if (gpos == -1) return;
 
-groups.splice(gpos, 1);
-g.isParented = false;
+groups.remove(gpos);
+g.isParented(false);
 numGroups--;
 g.cleanup();
 }
@@ -258,7 +262,7 @@ checkCollisions();
 */
 public static void paint(){
 for (int j = 0; j < numGroups; j++) {
-Group g = groups[j];
+Group g = groups.get(j);
 g.paint();
 }
 }
@@ -266,7 +270,7 @@ g.paint();
 
 private static void integrate(){
 for (int j = 0; j < numGroups; j++) {
-Group g = groups[j];
+Group g = groups.get(j);
 g.integrate(timeStep);
 }
 }
@@ -274,7 +278,7 @@ g.integrate(timeStep);
 
 private static void satisfyConstraints(){
 for (int j = 0; j < numGroups; j++) {
-Group g = groups[j];
+Group g = groups.get(j);
 g.satisfyConstraints();
 }
 }
@@ -282,9 +286,8 @@ g.satisfyConstraints();
 
 private static void checkCollisions(){
 for (int j = 0; j < numGroups; j++) {
-Group g = groups[j];
+Group g = groups.get(j);
 g.checkCollisions();
-}
 }
 }
 }
