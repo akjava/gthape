@@ -25,6 +25,8 @@ TODO:
 */
 package com.akjava.gwt.gthape.client.ape;
 
+import java.util.ArrayList;
+
 /**
 * The Composite class can contain Particles, and Constraints. Composites can be added
 * to a parent Group, along with Particles and Constraints.  Members of a Composite
@@ -32,10 +34,10 @@ package com.akjava.gwt.gthape.client.ape;
 */
 public class Composite extends AbstractCollection {
 
-private Vector delta
+private Vector delta;
 
 
-public function Composite() {
+public  Composite() {
 delta = new Vector();
 }
 
@@ -44,15 +46,15 @@ delta = new Vector();
 * Rotates the Composite to an angle specified in radians, around a given center
 */
 public void rotateByRadian(double angleRadians,Vector center){
-AbstractParticle p
-Array pa = particles;
-int len = pa.length;
+AbstractParticle p;
+ArrayList<AbstractParticle> pa = particles;//TODO useless?
+int len = pa.size();
 for (int i = 0; i < len; i++) {
-p = pa[i];
-Number radius = p.center.distance(center);
-Number angle = getRelativeAngle(center, p.center) + angleRadians;
-p.px = (Math.cos(angle) * radius) + center.x;
-p.py = (Math.sin(angle) * radius) + center.y;
+p = pa.get(i);
+double radius = p.center().distance(center);
+double angle = getRelativeAngle(center, p.center()) + angleRadians;
+p.px( (Math.cos(angle) * radius) + center.x);
+p.py ((Math.sin(angle) * radius) + center.y);
 }
 }
 
@@ -61,7 +63,7 @@ p.py = (Math.sin(angle) * radius) + center.y;
 * Rotates the Composite to an angle specified in degrees, around a given center
 */
 public void rotateByAngle(double angleDegrees,Vector center){
-Number angleRadians = angleDegrees * MathUtil.PI_OVER_ONE_EIGHTY;
+double angleRadians = angleDegrees * MathUtil.PI_OVER_ONE_EIGHTY;
 rotateByRadian(angleRadians, center);
 }
 
@@ -72,8 +74,8 @@ rotateByRadian(angleRadians, center);
 * value will return false if any of the component particles are not fixed.
 */
 public boolean fixed(){
-for (int i = 0; i < particles.length; i++) {
-if (! particles[i].fixed) return false;
+for (int i = 0; i < particles.size(); i++) {
+if (! particles.get(i).fixed()) return false;
 }
 return true;
 }
@@ -83,8 +85,8 @@ return true;
 * @private
 */
 public void fixed(boolean b){
-for (int i = 0; i < particles.length; i++) {
-particles[i].fixed = b;
+for (int i = 0; i < particles.size(); i++) {
+particles.get(i).fixed(b);
 }
 }
 
