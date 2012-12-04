@@ -151,7 +151,7 @@ multisample = m;
 * Returns A Vector of the current location of the particle
 */
 public Vector center(){
-//center.setTo(px, py);//TODO what is center;
+center.setTo(px(), py());
 return center;
 }
 

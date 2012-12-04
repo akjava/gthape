@@ -50,9 +50,9 @@ import com.akjava.gwt.gthape.display.Sprite;
 public abstract class AbstractCollection {
 
 
-private Sprite _sprite;
-private ArrayList<AbstractParticle> particles;
-private ArrayList<AbstractConstraint> constraints;
+private Sprite sprite;
+protected ArrayList<AbstractParticle> particles;
+protected ArrayList<AbstractConstraint> constraints;
 private boolean isParented;
 
 
@@ -212,8 +212,8 @@ return _sprite;
 /**
 * Returns an array of every particle and constraint added to the AbstractCollection.
 */
-public ArrayList<AbstractItem> getAll(){//this must be slow TODO think more
-	ArrayList<AbstractItem> items=new ArrayList<AbstractItem>();
+public ArrayList<Object> getAll(){//this must be slow TODO think more
+	ArrayList<Object> items=new ArrayList<Object>();
 	items.addAll(particles);
 	items.addAll(constraints);
 return items;

@@ -26,16 +26,15 @@ TODO:
 
 package com.akjava.gwt.gthape.client.ape;
 
-import flash.display.Graphics;
 
 /**
 * A rectangular shaped particle.
 */
 public class RectangleParticle extends AbstractParticle {
 
-private Array _extents
-private Array _axes
-private Number _radian
+private double[] extents;
+private Vector[] axes;
+private double radian;
 
 
 /**
@@ -56,12 +55,12 @@ private Number _radian
 * </p>
 */
 //rotation=0,fixed=false,mass=1,elasticity=0.3,friction=0
-public RectangleParticle null (double x,double y,double width,double height,double rotation,boolean fixed,double mass,double elasticity,double friction){
+public RectangleParticle (double x,double y,double width,double height,double rotation,boolean fixed,double mass,double elasticity,double friction){
 
 super(x, y, fixed, mass, elasticity, friction);
 
-_extents = new Array(width/2, height/2);
-_axes = new Array(new Vector(0,0), new Vector(0,0));
+extents = new double[]{width/2, height/2};
+axes = new Vector[]{new Vector(0,0), new Vector(0,0)};
 radian = rotation;
 }
 
@@ -78,7 +77,7 @@ radian = rotation;
 * </p>
 */
 public double radian(){
-return _radian;
+return radian;
 }
 
 
@@ -86,7 +85,7 @@ return _radian;
 * @private
 */
 public void radian(double t){
-_radian = t;
+radian = t;
 setAxes(t);
 }
 
@@ -113,20 +112,20 @@ radian = a * MathUtil.PI_OVER_ONE_EIGHTY;
 * the APEngine, when  this RectangleParticle's Composite is added to a Group, or the
 * RectangleParticle is added to a Composite or Group.
 */
-public override void init(){
+public  void init(){
 cleanup();
 if (displayObject != null) {
 initDisplay();
 } else {
 
-Number w = extents[0] * 2;
-Number h = extents[1] * 2;
+double w = extents[0] * 2;
+double h = extents[1] * 2;
 
-sprite.graphics.clear();
-sprite.graphics.lineStyle(lineThickness, lineColor, lineAlpha);
-sprite.graphics.beginFill(fillColor, fillAlpha);
-sprite.graphics.drawRect(-w/2, -h/2, w, h);
-sprite.graphics.endFill();
+sprite.getGraphics().clear();//TODO think something
+sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
+sprite.getGraphics().beginFill(fillColor, fillAlpha);
+sprite.getGraphics().drawRect(-w/2, -h/2, w, h);
+sprite.getGraphics().endFill();
 }
 paint();
 }
@@ -137,59 +136,59 @@ paint();
 * by the <code>APEngine.paint()</code> method. If you want to define your own custom painting
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
-public override void paint(){
-sprite.x = curr.x;
-sprite.y = curr.y;
-sprite.rotation = angle;
+public  void paint(){
+sprite.setX(curr.x);
+sprite.setY(curr.y);
+sprite.setRotation(angle());
 }
 
 
 public void width(double w){
-_extents[0] = w/2;
+extents[0] = w/2;
 }
 
 
 public double width(){
-return _extents[0] * 2
+return extents[0] * 2;
 }
 
 
 public void height(double h){
-_extents[1] = h / 2;
+extents[1] = h / 2;
 }
 
 
 public double height(){
-return _extents[1] * 2
+return extents[1] * 2;
 }
 
 
 /**
 * @private
 */
-internal ArrayList axes(){
-return _axes;
+Vector[] axes(){
+return axes;
 }
 
 
 /**
 * @private
 */
-internal ArrayList extents(){
-return _extents;
+double[] extents(){
+return extents;
 }
 
 
 /**
 * @private
 */
-internal Interval getProjection(Vector axis){
+Interval getProjection(Vector axis){
 
-Number radius =
+double radius =
 extents[0] * Math.abs(axis.dot(axes[0]))+
 extents[1] * Math.abs(axis.dot(axes[1]));
 
-Number c = samp.dot(axis);
+double c = samp.dot(axis);
 
 interval.min = c - radius;
 interval.max = c + radius;
@@ -201,8 +200,8 @@ return interval;
 *
 */
 private void setAxes(double t){
-Number s = Math.sin(t);
-Number c = Math.cos(t);
+double s = Math.sin(t);
+double c = Math.cos(t);
 
 axes[0].x = c;
 axes[0].y = s;
