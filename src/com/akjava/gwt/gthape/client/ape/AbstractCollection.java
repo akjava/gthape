@@ -32,11 +32,13 @@ what an AbstractConstraint really means.
 
 package com.akjava.gwt.gthape.client.ape;
 
-import flash.display.Sprite;
-import flash.utils.getQualifiedClassName;
+import java.util.ArrayList;
+
+import com.akjava.gwt.gthape.display.Sprite;
 
 
-package com.akjava.gwt.gthape.client.ape;
+
+
 /**
 * The abstract base class for all grouping classes.
 *
@@ -44,22 +46,20 @@ package com.akjava.gwt.gthape.client.ape;
 * You should not instantiate this class directly -- instead use one of the subclasses.
 * </p>
 */
-public class AbstractCollection {
+public abstract class AbstractCollection {
 
 
-private Sprite _sprite
-private Array _particles
-private Array _constraints
-private Boolean _isParented
+private Sprite _sprite;
+private ArrayList<AbstractParticle> particles;
+private ArrayList<AbstractConstraint> constraints;
+private boolean isParented;
 
 
-public function AbstractCollection() {
-if (getQualifiedClassName(this) == "org.cove.ape::AbstractCollection") {
-throw new ArgumentError("AbstractCollection can't be instantiated directly");
-}
-_isParented = false;
-_particles = new Array();
-_constraints = new Array();
+public  AbstractCollection() {
+
+isParented = false;
+particles = new ArrayList<AbstractParticle>();
+constraints = new ArrayList<AbstractConstraint>();
 }
 
 
@@ -67,7 +67,7 @@ _constraints = new Array();
 * The Array of all AbstractParticle instances added to the AbstractCollection
 */
 public ArrayList particles(){
-return _particles;
+return particles;
 }
 
 
@@ -75,7 +75,7 @@ return _particles;
 * The Array of all AbstractConstraint instances added to the AbstractCollection
 */
 public ArrayList constraints(){
-return _constraints;
+return constraints;
 }
 
 
@@ -85,8 +85,10 @@ return _constraints;
 * @param p The particle to be added.
 */
 public void addParticle(AbstractParticle p){
-particles.push(p);
-if (isParented) p.init();
+particles.add(p);
+if (isParented()) {
+	p.init();
+}
 }
 
 
@@ -98,7 +100,7 @@ if (isParented) p.init();
 public void removeParticle(AbstractParticle p){
 int ppos = particles.indexOf(p);
 if (ppos == -1) return;
-particles.splice(ppos, 1);
+particles.remove(ppos);
 p.cleanup();
 }
 
@@ -109,8 +111,11 @@ p.cleanup();
 * @param c The constraint to be added.
 */
 public void addConstraint(AbstractConstraint c){
-constraints.push(c);
-if (isParented) c.init();
+constraints.add(c);
+if (isParented){
+	c.init();
+}
+
 }
 
 
@@ -122,7 +127,7 @@ if (isParented) c.init();
 public void removeConstraint(AbstractConstraint c){
 int cpos = constraints.indexOf(c);
 if (cpos == -1) return;
-constraints.splice(cpos, 1);
+constraints.remove(cpos);
 c.cleanup();
 }
 
@@ -133,11 +138,11 @@ c.cleanup();
 */
 public void init(){
 
-for (int i = 0; i < particles.length; i++) {
-particles[i].init();
+for (int i = 0; i < particles.size(); i++) {
+particles.get(i).init();
 }
-for (i = 0; i < constraints.length; i++) {
-constraints[i].init();
+for (int i = 0; i < constraints.size(); i++) {
+constraints.get(i).init();
 }
 }
 
@@ -148,17 +153,17 @@ constraints[i].init();
 */
 public void paint(){
 
-AbstractParticle p
-int len = _particles.length;
+AbstractParticle p;
+int len = particles.size();
 for (int i = 0; i < len; i++) {
-p = _particles[i];
+p = particles.get(i);
 if ((! p.fixed) || p.alwaysRepaint) p.paint();
 }
 
-SpringConstraint c
-len = _constraints.length;
-for (i = 0; i < len; i++) {
-c = _constraints[i];
+AbstractConstraint c;//strange
+len = constraints.size();
+for (int i = 0; i < len; i++) {
+c = constraints.get(i);
 if ((! c.fixed) || c.alwaysRepaint) c.paint();
 }
 }

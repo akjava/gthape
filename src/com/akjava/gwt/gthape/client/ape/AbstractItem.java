@@ -34,7 +34,7 @@ import com.akjava.gwt.gthape.display.Sprite;
 */
 public abstract class AbstractItem {
 
-private Sprite sprite;
+protected Sprite sprite;
 private boolean visible;
 private boolean alwaysRepaint;
 

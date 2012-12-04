@@ -21,12 +21,12 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 package com.akjava.gwt.gthape.client.ape;
 
-internal final class Collision {
+final class Collision {
 
-internal Vector vn
-internal Vector vt
+Vector vn;
+Vector vt;
 
-public null Collision(Vector vn,Vector vt){
+public Collision(Vector vn,Vector vt){
 this.vn = vn;
 this.vt = vt;
 }

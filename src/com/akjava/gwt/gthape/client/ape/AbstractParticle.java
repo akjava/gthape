@@ -1,3 +1,4 @@
+package com.akjava.gwt.gthape.client.ape;
 /*
 Copyright (c) 2006, 2007 Alec Cove
 
@@ -23,11 +24,36 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 TODO:
 - Need removeForces method(s)
 - Center and Position are the same, needs review.
-- Should have alwaysRepaint functionality for Constraints, and bump up to AbstractItem- See if there's anywhere where Vectors can be downgraded to simple Point classes*/package org.cove.ape {import flash.display.Sprite;import flash.display.DisplayObject;import flash.utils.getQualifiedClassName;/*** The abstract base class for all particles.** <p>* You should not instantiate this class directly -- instead use one of the subclasses.* </p>*/public class AbstractParticle extends AbstractItem {/** @private */internal Vector;/** curr @private */internal Vector;/** prev @private */internal Vector;/** samp @private */internal Interval;private interval Vector;private forces Vector;private temp Collision;private collision Number;private _kfr Number;private _mass Number;private _invMass Number;private _friction Boolean;private _fixed Boolean;private _collidable Vector;private _center int;/*** _multisample @private*/public AbstractParticle null (double x,double y,boolean isFixed,double mass,double elasticity,double friction){
+- Should have alwaysRepaint functionality for Constraints, and bump up to AbstractItem- See if there's anywhere where Vectors can be downgraded to simple Point classes*/
 
-if (getQualifiedClassName(this) == "org.cove.ape::AbstractParticle") {
-throw new ArgumentError("AbstractParticle can't be instantiated directly");
-}
+
+import com.akjava.gwt.gthape.display.DisplayObject;
+/*** The abstract base class for all particles.** <p>* You should not instantiate this class directly -- instead use one of the subclasses.* </p>*/
+public abstract class AbstractParticle extends AbstractItem {
+
+	 Vector curr;
+	 Vector prev;
+	
+	 Vector samp;
+	 
+	 Interval interval;
+	private Vector forces;
+	private  Vector temp;
+	private  Collision collision;
+	
+
+	private double mass;
+	private double invMass;
+	private double friction;
+	private double elasticity;
+	private boolean fixed;
+	private boolean collidable;
+	private Vector center;
+	private int multisample;
+	/*** _multisample @private*/
+	public AbstractParticle(double x,double y,boolean isFixed,double mass,double elasticity,double friction){
+
+
 
 interval = new Interval(0,0);
 
@@ -47,8 +73,8 @@ this.friction = friction;
 
 setStyle();
 
-_center = new Vector();
-_multisample = 0;
+center = new Vector();
+multisample = 0;
 }
 
 
@@ -59,7 +85,7 @@ _multisample = 0;
 * @throws ArgumentError ArgumentError if the mass is set less than zero.
 */
 public double mass(){
-return _mass;
+return mass;
 }
 
 
@@ -67,9 +93,9 @@ return _mass;
 * @private
 */
 public void mass(double m){
-if (m <= 0) throw new ArgumentError("mass may not be set <= 0");
-_mass = m;
-_invMass = 1 / _mass;
+if (m <= 0) throw new RuntimeException("mass may not be set <= 0");
+mass = m;
+invMass = 1 / mass;
 }
 
 
@@ -91,7 +117,7 @@ _invMass = 1 / _mass;
 * </p>
 */
 public double elasticity(){
-return _kfr;
+return elasticity;
 }
 
 
@@ -99,7 +125,7 @@ return _kfr;
 * @private
 */
 public void elasticity(double k){
-_kfr = k;
+	elasticity = k;
 }
 
 
@@ -109,7 +135,7 @@ _kfr = k;
 * -- when a particle moves so fast it misses collision with certain surfaces.
 */
 public int multisample(){
-return _multisample;
+return multisample;
 }
 
 
@@ -117,7 +143,7 @@ return _multisample;
 * @private
 */
 public void multisample(int m){
-_multisample = m;
+multisample = m;
 }
 
 
@@ -125,8 +151,8 @@ _multisample = m;
 * Returns A Vector of the current location of the particle
 */
 public Vector center(){
-_center.setTo(px, py)
-return _center;
+//center.setTo(px, py);//TODO what is center;
+return center;
 }
 
 
@@ -156,7 +182,7 @@ return _center;
 * @throws ArgumentError ArgumentError if the friction is set less than zero or greater than 1
 */
 public double friction(){
-return _friction;
+return friction;
 }
 
 
@@ -164,8 +190,8 @@ return _friction;
 * @private
 */
 public void friction(double f){
-if (f < 0 || f > 1) throw new ArgumentError("Legal friction must be >= 0 and <=1");
-_friction = f;
+if (f < 0 || f > 1) throw new RuntimeException("Legal friction must be >= 0 and <=1");
+friction = f;
 }
 
 
@@ -174,7 +200,7 @@ _friction = f;
 * in response to forces or collisions. Fixed particles are good for surfaces.
 */
 public boolean fixed(){
-return _fixed;
+return fixed;
 }
 
 
@@ -182,7 +208,7 @@ return _fixed;
 * @private
 */
 public void fixed(boolean f){
-_fixed = f;
+fixed = f;
 }
 
 
@@ -278,7 +304,7 @@ prev = curr.minus(v);
 * The default state is true.
 */
 public boolean collidable(){
-return _collidable;
+return collidable;
 }
 
 
@@ -286,7 +312,7 @@ return _collidable;
 * @private
 */
 public void collidable(boolean b){
-_collidable = b;
+collidable = b;
 }
 
 
@@ -344,8 +370,8 @@ addMasslessForce(APEngine.masslessForce);
 // integrate
 temp.copy(curr);
 
-Vector nv = velocity.plus(forces.multEquals(dt2));
-curr.plusEquals(nv.multEquals(APEngine.damping));
+Vector nv = velocity().plus(forces.multEquals(dt2));
+curr.plusEquals(nv.multEquals(APEngine.damping()));
 prev.copy(temp);
 
 // clear the forces
@@ -356,10 +382,10 @@ forces.setTo(0,0);
 /**
 * @private
 */
-internal void initDisplay(){
-displayObject.x = displayObjectOffset.x;
-displayObject.y = displayObjectOffset.y;
-displayObject.rotation = displayObjectRotation;
+void initDisplay(){
+displayObject.setX( displayObjectOffset.x);
+displayObject.setY(displayObjectOffset.y);
+displayObject.setRotation(displayObjectRotation);
 sprite.addChild(displayObject);
 }
 
@@ -367,9 +393,9 @@ sprite.addChild(displayObject);
 /**
 * @private
 */
-internal Collision getComponents(Vector collisionNormal){
-Vector vel = velocity;
-Number vdotn = collisionNormal.dot(vel);
+ Collision getComponents(Vector collisionNormal){
+Vector vel = velocity();
+double vdotn = collisionNormal.dot(vel);
 collision.vn = collisionNormal.mult(vdotn);
 collision.vt = vel.minus(collision.vn);
 return collision;
@@ -379,18 +405,17 @@ return collision;
 /**
 * @private
 */
-internal void resolveCollision(Vector mtd,Vector vel,Vector n,double d,int o,AbstractParticle p){
+ void resolveCollision(Vector mtd,Vector vel,Vector n,double d,int o,AbstractParticle p){
 
 curr.plusEquals(mtd);
-velocity = vel;
+velocity(vel);
 }
 
 
 /**
 * @private
 */
-internal double invMass(){
-return (fixed) ? 0 : _invMass;
-}
+ double invMass(){
+return (fixed) ? 0 : invMass;
 }
 }

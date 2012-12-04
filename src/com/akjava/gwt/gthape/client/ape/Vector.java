@@ -29,12 +29,15 @@ package com.akjava.gwt.gthape.client.ape;
 
 public class Vector {
 
-public Number x
-public Number y
+public double x;
+public double y;
 
 
 //px=0,,py=0
-public null Vector(double px,double py){
+public  Vector(){
+	this(0,0);
+}
+public  Vector(double px,double py){
 x = px;
 y = py;
 }
@@ -123,7 +126,7 @@ return delta.magnitude();
 
 
 public Vector normalize(){
-Number m = magnitude();
+double m = magnitude();
 if (m == 0) m = 0.0001;
 return mult(1 / m);
 }
