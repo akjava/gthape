@@ -33,12 +33,12 @@ package com.akjava.gwt.gthape.client.ape;
 */
 public class WheelParticle extends CircleParticle {
 
-private RimParticle rp
-private Vector tan
-private Vector normSlip
-private Vector orientation
+private RimParticle rp;
+private Vector tan;
+private Vector normSlip;
+private Vector orientation;
 
-private Number _traction
+private double traction;
 
 
 /**
@@ -57,7 +57,7 @@ private Number _traction
 * </p>
 */
 //fixed=false,mass=1,elasticity=0.3,friction=0,traction=1
-public null WheelParticle(double x,double y,double radius,boolean fixed,double mass,double elasticity,double friction,double traction){
+public  WheelParticle(double x,double y,double radius,boolean fixed,double mass,double elasticity,double friction,double traction){
 
 super(x,y,radius,fixed, mass, elasticity, friction);
 tan = new Vector(0,0);
@@ -74,7 +74,7 @@ orientation = new Vector();
 * WheelParticle spin.
 */
 public double speed(){
-return rp.speed;
+return rp.speed();
 }
 
 
@@ -82,7 +82,7 @@ return rp.speed;
 * @private
 */
 public void speed(double s){
-rp.speed = s;
+rp.speed(s);
 }
 
 
@@ -91,7 +91,7 @@ rp.speed = s;
 * WheelParticle spin.
 */
 public double angularVelocity(){
-return rp.angularVelocity;
+return rp.angularVelocity();
 }
 
 
@@ -99,7 +99,7 @@ return rp.angularVelocity;
 * @private
 */
 public void angularVelocity(double a){
-rp.angularVelocity = a;
+rp.angularVelocity(a);
 }
 
 
@@ -116,7 +116,7 @@ rp.angularVelocity = a;
 * </p>
 */
 public double traction(){
-return 1 - _traction;
+return 1 - traction;
 }
 
 
@@ -124,7 +124,7 @@ return 1 - _traction;
 * @private
 */
 public void traction(double t){
-_traction = 1 - t;
+traction = 1 - t;
 }
 
 
@@ -135,10 +135,10 @@ _traction = 1 - t;
 * APE particle and constraint classes, or is a composite of them. Then within that
 * class you can define your own custom painting method.
 */
-public override void paint(){
-sprite.x = curr.x;
-sprite.y = curr.y;
-sprite.rotation = angle;
+public  void paint(){
+sprite.setX(curr.x);
+sprite.setY(curr.y);
+sprite.setRotation(angle());
 }
 
 
@@ -146,25 +146,25 @@ sprite.rotation = angle;
 * Sets up the visual representation of this particle. This method is automatically called when
 * an particle is added to the engine.
 */
-public override void init(){
+public  void init(){
 cleanup();
 if (displayObject != null) {
 initDisplay();
 } else {
 
-sprite.graphics.clear();
-sprite.graphics.lineStyle(lineThickness, lineColor, lineAlpha);
+sprite.getGraphics().clear();
+sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
 
 // wheel circle
-sprite.graphics.beginFill(fillColor, fillAlpha);
-sprite.graphics.drawCircle(0, 0, radius);
-sprite.graphics.endFill();
+sprite.getGraphics().beginFill(fillColor, fillAlpha);
+sprite.getGraphics().drawCircle(0, 0, radius());
+sprite.getGraphics().endFill();
 
 // spokes
-sprite.graphics.moveTo(-radius, 0);
-sprite.graphics.lineTo( radius, 0);
-sprite.graphics.moveTo(0, -radius);
-sprite.graphics.lineTo(0, radius);
+sprite.getGraphics().moveTo(-radius(), 0);
+sprite.getGraphics().lineTo( radius(), 0);
+sprite.getGraphics().moveTo(0, -radius());
+sprite.getGraphics().lineTo(0, radius());
 }
 paint();
 }
@@ -183,14 +183,14 @@ return Math.atan2(orientation.y, orientation.x) + Math.PI;
 * The rotation of the wheel in degrees.
 */
 public double angle(){
-return radian * MathUtil.ONE_EIGHTY_OVER_PI;
+return radian() * MathUtil.ONE_EIGHTY_OVER_PI;
 }
 
 
 /**
 *
 */
-public override void update(double dt){
+public  void update(double dt){
 super.update(dt);
 rp.update(dt);
 }
@@ -199,7 +199,7 @@ rp.update(dt);
 /**
 * @private
 */
-internal override void resolveCollision(Vector mtd,Vector vel,Vector n,double d,int o,AbstractParticle p){
+void resolveCollision(Vector mtd,Vector vel,Vector n,double d,int o,AbstractParticle p){
 
 // review the o (order) need here - its a hack fix
 super.resolveCollision(mtd, vel, n, d, o, p);
@@ -220,22 +220,22 @@ tan.setTo(-rp.curr.y, rp.curr.x);
 tan = tan.normalize();
 
 // velocity of the wheel's surface
-Vector wheelSurfaceVelocity = tan.mult(rp.speed);
+Vector wheelSurfaceVelocity = tan.mult(rp.speed());
 
 // the velocity of the wheel's surface relative to the ground
-Vector combinedVelocity = velocity.plusEquals(wheelSurfaceVelocity);
+Vector combinedVelocity = velocity().plusEquals(wheelSurfaceVelocity);
 
 // the wheel's comb velocity projected onto the contact normal
-Number cp = combinedVelocity.cross(n);
+double cp = combinedVelocity.cross(n);
 
 // set the wheel's spinspeed to track the ground
 tan.multEquals(cp);
 rp.prev.copy(rp.curr.minus(tan));
 
 // some of the wheel's torque is removed and converted into linear displacement
-Number slipSpeed = (1 - _traction) * rp.speed;
+double slipSpeed = (1 - traction) * rp.speed();
 normSlip.setTo(slipSpeed * n.y, slipSpeed * n.x);
 curr.plusEquals(normSlip);
-rp.speed *= _traction;
+rp.speed(rp.speed()*traction);
 }
 }
