@@ -67,7 +67,7 @@ constraints = new ArrayList<AbstractConstraint>();
 /**
 * The Array of all AbstractParticle instances added to the AbstractCollection
 */
-public ArrayList particles(){
+public ArrayList<AbstractParticle> particles(){
 return particles;
 }
 
@@ -75,7 +75,7 @@ return particles;
 /**
 * The Array of all AbstractConstraint instances added to the AbstractCollection
 */
-public ArrayList constraints(){
+public ArrayList<AbstractConstraint> constraints(){
 return constraints;
 }
 
@@ -283,8 +283,8 @@ int clen = constraints.size();
 for (int n = 0; n < clen; n++) {
 SpringConstraint c = (SpringConstraint) constraints.get(n);//TODO fix but now sprint is only constraint
 if (c.collidable() && ! c.isConnectedTo(pa)) {
-c.scp.updatePosition();
-CollisionDetector.test(pa, c.scp);
+c.scp().updatePosition();
+CollisionDetector.test(pa, c.scp());
 }
 }
 }
@@ -294,45 +294,45 @@ CollisionDetector.test(pa, c.scp);
 /**
 * @private
 */
-internal void checkCollisionsVsCollection(AbstractCollection ac){
+ void checkCollisionsVsCollection(AbstractCollection ac){
 
 // every particle in this collection...
-int plen = _particles.length;
+int plen = particles.size();
 for (int j = 0; j < plen; j++) {
 
-AbstractParticle pga = _particles[j];
-if (! pga.collidable) continue;
+AbstractParticle pga = particles.get(j);
+if (! pga.collidable()) continue;
 
 // ...vs every particle in the other collection
-int acplen = ac.particles.length;
-for (var x:int = 0; x < acplen; x++) {
-AbstractParticle pgb = ac.particles[x];
-if (pgb.collidable) CollisionDetector.test(pga, pgb);
+int acplen = ac.particles.size();
+for (int x = 0; x < acplen; x++) {
+AbstractParticle pgb = ac.particles.get(x);
+if (pgb.collidable()) CollisionDetector.test(pga, pgb);
 }
 // ...vs every constraint in the other collection
-int acclen = ac.constraints.length;
-for (x = 0; x < acclen; x++) {
-SpringConstraint cgb = ac.constraints[x];
-if (cgb.collidable && ! cgb.isConnectedTo(pga)) {
-cgb.scp.updatePosition();
-CollisionDetector.test(pga, cgb.scp);
+int acclen = ac.constraints.size();
+for (int x = 0; x < acclen; x++) {
+SpringConstraint cgb = (SpringConstraint) ac.constraints().get(x);
+if (cgb.collidable() && ! cgb.isConnectedTo(pga)) {
+cgb.scp().updatePosition();
+CollisionDetector.test(pga, cgb.scp());
 }
 }
 }
 
 // every constraint in this collection...
-int clen = _constraints.length;
-for (j = 0; j < clen; j++) {
-SpringConstraint cga = _constraints[j];
-if (! cga.collidable) continue;
+int clen = constraints.size();
+for (int j = 0; j < clen; j++) {
+SpringConstraint cga = (SpringConstraint) constraints.get(j);
+if (! cga.collidable()) continue;
 
 // ...vs every particle in the other collection
-acplen = ac.particles.length;
-for (var n:int = 0; n < acplen; n++) {
-pgb = ac.particles[n];
-if (pgb.collidable && ! cga.isConnectedTo(pgb)) {
-cga.scp.updatePosition();
-CollisionDetector.test(pgb, cga.scp);
+int acplen = ac.particles.size();
+for (int n = 0; n < acplen; n++) {
+AbstractParticle pgb = ac.particles.get(n);
+if (pgb.collidable() && ! cga.isConnectedTo(pgb)) {
+cga.scp().updatePosition();
+CollisionDetector.test(pgb, cga.scp());
 }
 }
 }
