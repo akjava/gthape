@@ -132,6 +132,9 @@ sprite.setVisible(v);
 * Sets the line and fill of this Item.
 */
 //lineThickness=0,lineColor=0x000000,lineAlpha=1,fillColor=0xffffff,fillAlpha=1
+public void setStyle(){
+	setStyle(0,0,1,0xffffff,1);
+}
 public void setStyle(double lineThickness,int lineColor,double lineAlpha,int fillColor,double fillAlpha){
 
 setLine(lineThickness, lineColor, lineAlpha);

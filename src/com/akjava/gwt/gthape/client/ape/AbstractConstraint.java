@@ -21,9 +21,6 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 package com.akjava.gwt.gthape.client.ape;
 
-import flash.display.Sprite;
-import flash.display.DisplayObject;
-import flash.utils.getQualifiedClassName;
 
 /**
 * The abstract base class for all constraints.
@@ -32,18 +29,16 @@ import flash.utils.getQualifiedClassName;
 * You should not instantiate this class directly -- instead use one of the subclasses.
 * </p>
 */
-public class AbstractConstraint extends AbstractItem {
+public abstract class AbstractConstraint extends AbstractItem {
 
-private Number _stiffness
+private double stiffness;
 
 
 /**
 * @private
 */
-public AbstractConstraint null (double stiffness){
-if (getQualifiedClassName(this) == "org.cove.ape::AbstractConstraint") {
-throw new ArgumentError("AbstractConstraint can't be instantiated directly");
-}
+public AbstractConstraint(double stiffness){
+
 this.stiffness = stiffness;
 setStyle();
 }
@@ -55,7 +50,7 @@ setStyle();
 * setting constraints to very high values may result in instability.
 */
 public double stiffness(){
-return _stiffness;
+return stiffness;
 }
 
 
@@ -63,12 +58,12 @@ return _stiffness;
 * @private
 */
 public void stiffness(double s){
-_stiffness = s;
+stiffness = s;
 }
 
 
 /**
 * @private
 */
-internal void resolve(){}
+void resolve(){}
 }
