@@ -25,40 +25,41 @@ TODO:
 
 package com.akjava.gwt.gthape.client.ape;
 
-import flash.display.Sprite;
-import flash.display.DisplayObject;
+import com.akjava.gwt.gthape.display.Builders;
+import com.akjava.gwt.gthape.display.DisplayObject;
+import com.akjava.gwt.gthape.display.Sprite;
 
 /**
 * The base class for all constraints and particles
 */
-public class AbstractItem {
+public abstract class AbstractItem {
 
-private Sprite _sprite
-private Boolean _visible
-private Boolean _alwaysRepaint
-
-
-/** @private */
-internal Number lineThickness
-/** @private */
-internal uint lineColor
-/** @private */
-internal Number lineAlpha
-/** @private */
-internal uint fillColor
-/** @private */
-internal Number fillAlpha
-/** @private */
-internal DisplayObject displayObject
-/** @private */
-internal Vector displayObjectOffset
-/** @private */
-internal Number displayObjectRotation
+private Sprite sprite;
+private boolean visible;
+private boolean alwaysRepaint;
 
 
-public function AbstractItem() {
-_visible = true;
-_alwaysRepaint = false;
+/** @private */
+double lineThickness;
+/** @private */
+int lineColor;
+/** @private */
+double lineAlpha;
+/** @private */
+int fillColor;
+/** @private */
+double fillAlpha;
+/** @private */
+DisplayObject displayObject;
+/** @private */
+Vector displayObjectOffset;
+/** @private */
+double displayObjectRotation;
+
+
+public AbstractItem() {
+visible = true;
+alwaysRepaint = false;
 }
 
 
@@ -81,8 +82,8 @@ public void paint(){}
 * from the APEngine.
 */
 public void cleanup(){
-sprite.graphics.clear();
-for (int i = 0; i < sprite.numChildren; i++) {
+sprite.getGraphics().clear();
+for (int i = 0; i < sprite.numChildren(); i++) {
 sprite.removeChildAt(i);
 }
 }
@@ -98,7 +99,7 @@ sprite.removeChildAt(i);
 * SpringConstraint is not fixed.
 */
 public final boolean alwaysRepaint(){
-return _alwaysRepaint;
+return alwaysRepaint;
 }
 
 
@@ -106,7 +107,7 @@ return _alwaysRepaint;
 * @private
 */
 public final void alwaysRepaint(boolean b){
-_alwaysRepaint = b;
+alwaysRepaint = b;
 }
 
 
@@ -114,7 +115,7 @@ _alwaysRepaint = b;
 * The visibility of the item.
 */
 public boolean visible(){
-return _visible;
+return visible;
 }
 
 
@@ -122,8 +123,8 @@ return _visible;
 * @private
 */
 public void visible(boolean v){
-_visible = v;
-sprite.visible = v;
+visible = v;
+sprite.setVisible(v);
 }
 
 
@@ -166,14 +167,14 @@ fillAlpha = alpha;
 */
 public Sprite sprite(){
 
-if (_sprite != null) return _sprite;
+if (sprite != null) return sprite;
 
-if (APEngine.container == null) {
-throw new Error("The container property of the APEngine class has not been set");
+if (APEngine.container() == null) {
+throw new RuntimeException("The container property of the APEngine class has not been set");
 }
 
-_sprite = new Sprite();
-APEngine.container.addChild(_sprite);
-return _sprite;
+sprite = Builders.getSpliteBuilder().createSprite();
+APEngine.container().addChild(sprite);
+return sprite;
 }
 }
