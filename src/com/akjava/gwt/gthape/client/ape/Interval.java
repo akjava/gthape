@@ -21,17 +21,18 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 package com.akjava.gwt.gthape.client.ape;
 
-internal final class Interval {
+ final class Interval {
 
-internal Number min
-internal Number max
+double min;
+double max;
 
-public null Interval(double min,double max){
+public Interval(double min,double max){
 this.min = min;
 this.max = max;
 }
 
-internal String toString(){
+public String toString(){
 return (min + " : " + max);
 }
+
 }
