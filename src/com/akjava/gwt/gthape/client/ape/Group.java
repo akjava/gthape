@@ -28,7 +28,7 @@ a copy of the array? do we want to give the user direct access to it?
 (as they probably should, the checkCollision... methods would probably be much
 cleaner.
 */
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 
 /**
@@ -289,7 +289,6 @@ c.checkCollisionsVsCollection(gc);
 for (j = 0; j < gclen; j++) {
 gc = g.composites[j];
 checkCollisionsVsCollection(gc);
-}
 }
 }
 }

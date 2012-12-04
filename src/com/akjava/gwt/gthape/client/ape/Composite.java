@@ -23,7 +23,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 TODO:
 - in rotateByRadian, radius should be cached if possible
 */
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 /**
 * The Composite class can contain Particles, and Constraints. Composites can be added
@@ -92,6 +92,5 @@ particles[i].fixed = b;
 private double getRelativeAngle(Vector center,Vector p){
 delta.setTo(p.x - center.x, p.y - center.y);
 return Math.atan2(delta.y, delta.x);
-}
 }
 }

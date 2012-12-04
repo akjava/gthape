@@ -23,7 +23,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 TODO:
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 import flash.display.Sprite;
 import flash.display.DisplayObject;
@@ -175,6 +175,5 @@ throw new Error("The container property of the APEngine class has not been set")
 _sprite = new Sprite();
 APEngine.container.addChild(_sprite);
 return _sprite;
-}
 }
 }

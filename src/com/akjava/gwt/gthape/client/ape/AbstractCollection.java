@@ -30,12 +30,13 @@ what an AbstractConstraint really means.
 - would an explicit cast be more efficient in the paint() method here?
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 import flash.display.Sprite;
 import flash.utils.getQualifiedClassName;
 
 
+package com.akjava.gwt.gthape.client.ape;
 /**
 * The abstract base class for all grouping classes.
 *
@@ -319,7 +320,6 @@ pgb = ac.particles[n];
 if (pgb.collidable && ! cga.isConnectedTo(pgb)) {
 cga.scp.updatePosition();
 CollisionDetector.test(pgb, cga.scp);
-}
 }
 }
 }

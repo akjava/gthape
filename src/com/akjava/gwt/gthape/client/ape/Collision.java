@@ -19,7 +19,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFT
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 internal final class Collision {
 
@@ -29,6 +29,5 @@ internal Vector vt
 public null Collision(Vector vn,Vector vt){
 this.vn = vn;
 this.vt = vt;
-}
 }
 }

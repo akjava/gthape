@@ -25,7 +25,7 @@ TODO:
 - clear up the difference between speed and angularVelocity
 - can the wheel rotate steadily using speed? angularVelocity causes (unwanted?) acceleration
 */
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 
 /**
@@ -237,6 +237,5 @@ Number slipSpeed = (1 - _traction) * rp.speed;
 normSlip.setTo(slipSpeed * n.y, slipSpeed * n.x);
 curr.plusEquals(normSlip);
 rp.speed *= _traction;
-}
 }
 }

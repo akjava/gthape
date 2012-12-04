@@ -24,7 +24,7 @@ TODO:
 - review getProjection() for precomputing. radius can definitely be precomputed/stored
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 import flash.display.Graphics;
 
@@ -208,6 +208,5 @@ axes[0].x = c;
 axes[0].y = s;
 axes[1].x = -s;
 axes[1].y = c;
-}
 }
 }

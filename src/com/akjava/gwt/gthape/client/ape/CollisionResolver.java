@@ -25,7 +25,7 @@ TODO:
 component should not be scaled/applied in all instances, depending on the velocity
 of the other colliding item
 */
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 // thanks to Jim Bonacci for changes using the inverse mass instead of mass
 
@@ -75,6 +75,5 @@ internal static double clamp(double input,double min,double max){
 if (input > max) return max;
 if (input < min) return min;
 return input;
-}
 }
 }

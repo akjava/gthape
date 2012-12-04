@@ -28,7 +28,7 @@ TODO:
 - do we need a scaleToLength for non collidable?
 - resolveCycles
 */
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 import flash.display.Sprite;
 import flash.display.DisplayObject;
@@ -350,7 +350,6 @@ p2.curr.plusEquals (dmds.mult(p2.invMass));
 private void checkParticlesLocation(){
 if (p1.curr.x == p2.curr.x && p1.curr.y == p2.curr.y) {
 p2.curr.x += 0.0001;
-}
 }
 }
 }

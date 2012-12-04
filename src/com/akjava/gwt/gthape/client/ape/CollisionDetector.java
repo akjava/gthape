@@ -25,7 +25,7 @@ TODO:
 - There's some physical differences in collision response for multisampled
 particles, probably due to prev/curr differences.
 */
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 
 internal final class CollisionDetector {
@@ -272,6 +272,5 @@ else if (dist < 0) dist = -r.extents[i];
 q.plusEquals(r.axes[i].mult(dist));
 }
 return q;
-}
 }
 }

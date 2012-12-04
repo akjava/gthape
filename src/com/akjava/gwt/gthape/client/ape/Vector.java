@@ -25,7 +25,7 @@ TODO:
 - review the division by zero checks/corrections. why are they needed?
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 public class Vector {
 
@@ -131,6 +131,5 @@ return mult(1 / m);
 
 public String toString(){
 return (x + " : " + y);
-}
 }
 }

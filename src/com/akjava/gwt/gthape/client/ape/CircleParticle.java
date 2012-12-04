@@ -24,7 +24,7 @@ TODO:
 - getProjection() needs review for any possibility of precomputing
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 import flash.display.Sprite;
 
@@ -133,5 +133,5 @@ interval.max = curr.y + _radius;
 return interval;
 }
 }
-}
+
 

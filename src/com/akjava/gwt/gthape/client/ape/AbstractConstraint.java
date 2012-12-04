@@ -19,7 +19,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFT
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 import flash.display.Sprite;
 import flash.display.DisplayObject;
@@ -71,5 +71,4 @@ _stiffness = s;
 * @private
 */
 internal void resolve(){}
-}
 }

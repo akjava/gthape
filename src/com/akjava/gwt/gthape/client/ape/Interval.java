@@ -19,7 +19,7 @@ CONTRACT, TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE SOFT
 OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 internal final class Interval {
 
@@ -33,6 +33,5 @@ this.max = max;
 
 internal String toString(){
 return (min + " : " + max);
-}
 }
 }

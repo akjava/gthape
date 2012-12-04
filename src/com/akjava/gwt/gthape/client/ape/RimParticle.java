@@ -24,7 +24,7 @@ TODO:
 - use vector methods in update()
 */
 
-package org.cove.ape {
+package com.akjava.gwt.gthape.client.ape;
 
 internal class RimParticle {
 
@@ -107,6 +107,5 @@ Number diff = (clen - wr) / clen;
 
 curr.x -= curr.x * diff;
 curr.y -= curr.y * diff;
-}
 }
 }
