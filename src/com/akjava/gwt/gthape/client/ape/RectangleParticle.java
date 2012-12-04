@@ -32,9 +32,9 @@ package com.akjava.gwt.gthape.client.ape;
 */
 public class RectangleParticle extends AbstractParticle {
 
-private double[] extents;
-private Vector[] axes;
-private double radian;
+protected double[] extents;
+protected Vector[] axes;
+protected double radian;
 
 
 /**
@@ -55,6 +55,9 @@ private double radian;
 * </p>
 */
 //rotation=0,fixed=false,mass=1,elasticity=0.3,friction=0
+public RectangleParticle (double x,double y,double width,double height,double rotation,boolean fixed){
+	this(x,y,width,height,rotation,fixed,1,0.3,0);
+}
 public RectangleParticle (double x,double y,double width,double height,double rotation,boolean fixed,double mass,double elasticity,double friction){
 
 super(x, y, fixed, mass, elasticity, friction);

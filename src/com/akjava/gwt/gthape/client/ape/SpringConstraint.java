@@ -30,8 +30,7 @@ TODO:
 */
 package com.akjava.gwt.gthape.client.ape;
 
-import flash.display.Sprite;
-import flash.display.DisplayObject;
+import com.akjava.gwt.gthape.display.DisplayObject;
 
 /**
 * A Spring-like constraint that connects two particles
@@ -41,8 +40,8 @@ public class SpringConstraint extends AbstractConstraint {
 private AbstractParticle p1;
 private AbstractParticle p2;
 
-private Number restLength;
-private Boolean collidable;
+private double restLength;
+private boolean collidable;
 private SpringConstraintParticle scp;
 
 /**
@@ -68,7 +67,7 @@ this.p1 = p1;
 this.p2 = p2;
 checkParticlesLocation();
 
-restLength = currLength;
+restLength = currLength();
 setCollidable(collidable, rectHeight, rectScale, scaleToLength);
 }
 
@@ -81,7 +80,7 @@ setCollidable(collidable, rectHeight, rectScale, scaleToLength);
 * @returns A Number representing the rotation of this SpringConstraint in radians
 */
 public double radian(){
-Vector d = delta;
+Vector d = delta();
 return Math.atan2(d.y, d.x);
 }
 
@@ -94,7 +93,7 @@ return Math.atan2(d.y, d.x);
 * @returns A Number representing the rotation of this SpringConstraint in degrees
 */
 public double angle(){
-return radian * MathUtil.ONE_EIGHTY_OVER_PI;
+return radian() * MathUtil.ONE_EIGHTY_OVER_PI;
 }
 
 
@@ -119,7 +118,7 @@ return (p1.curr.plus(p2.curr)).divEquals(2);
 */
 public void rectScale(double s){
 if (scp == null) return;
-scp.rectScale = s;
+scp.rectScale(s);
 }
 
 
@@ -127,7 +126,7 @@ scp.rectScale = s;
 * @private
 */
 public double rectScale(){
-return scp.rectScale;
+return scp.rectScale();
 }
 
 
@@ -147,7 +146,7 @@ return p1.curr.distance(p2.curr);
 * The height is perpendicular to the line connecting the two particles
 */
 public double rectHeight(){
-return scp.rectHeight;
+return scp.rectHeight();
 }
 
 
@@ -156,7 +155,7 @@ return scp.rectHeight;
 */
 public void rectHeight(double h){
 if (scp == null) return;
-scp.rectHeight = h;
+scp.rectHeight(h);
 }
 
 
@@ -167,7 +166,7 @@ scp.rectHeight = h;
 * be > 0.
 */
 public double restLength(){
-return _restLength;
+return restLength;
 }
 
 
@@ -175,8 +174,8 @@ return _restLength;
 * @private
 */
 public void restLength(double r){
-if (r <= 0) throw new ArgumentError("restLength must be greater than 0");
-_restLength = r;
+if (r <= 0) throw new RuntimeException("restLength must be greater than 0");
+restLength(r);
 }
 
 
@@ -186,7 +185,7 @@ _restLength = r;
 * to alter the dimensions of the collidable area.
 */
 public boolean collidable(){
-return _collidable;
+return collidable;
 }
 
 
@@ -197,7 +196,7 @@ return _collidable;
 * resolved. Values must be between 0.0 and 1.0.
 */
 public double fixedEndLimit(){
-return scp.fixedEndLimit;
+return scp.fixedEndLimit();
 }
 
 
@@ -206,7 +205,7 @@ return scp.fixedEndLimit;
 */
 public void fixedEndLimit(double f){
 if (scp == null) return;
-scp.fixedEndLimit = f;
+scp.fixedEndLimit(f);
 }
 
 
@@ -216,11 +215,11 @@ scp.fixedEndLimit = f;
 //scaleToLength=false
 public void setCollidable(boolean b,double rectHeight,double rectScale,boolean scaleToLength){
 
-_collidable = b;
-_scp = null;
+collidable = b;
+scp = null;
 
-if (_collidable) {
-_scp = new SpringConstraintParticle(p1, p2, this, rectHeight, rectScale, scaleToLength);
+if (collidable) {
+scp = new SpringConstraintParticle(p1, p2, this, rectHeight, rectScale, scaleToLength);
 }
 }
 
@@ -237,7 +236,7 @@ return (p == p1 || p == p2);
 * Returns true if both connected particle's <code>fixed</code> property is true.
 */
 public boolean fixed(){
-return (p1.fixed && p2.fixed);
+return (p1.fixed() && p2.fixed());
 }
 
 
@@ -247,7 +246,7 @@ return (p1.fixed && p2.fixed);
 * the APEngine, when  this SpringContraint's Composite is added to a Group, or this
 * SpringContraint is added to a Composite or Group.
 */
-public override void init(){
+public  void init(){
 cleanup();
 if (collidable) {
 scp.init();
@@ -263,20 +262,20 @@ paint();
 * by the <code>APEngine.paint()</code> method. If you want to define your own custom painting
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
-public override void paint(){
+public  void paint(){
 
 if (collidable) {
 scp.paint();
 } else if (displayObject != null) {
-Vector c = center;
-sprite.x = c.x;
-sprite.y = c.y;
-sprite.rotation = angle;
+Vector c = center();
+sprite.setX(c.x);
+sprite.setY(c.y);
+sprite.setRotation(angle());
 } else {
-sprite.graphics.clear();
-sprite.graphics.lineStyle(lineThickness, lineColor, lineAlpha);
-sprite.graphics.moveTo(p1.px, p1.py);
-sprite.graphics.lineTo(p2.px, p2.py);
+sprite.getGraphics().clear();
+sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
+sprite.getGraphics().moveTo(p1.px(), p1.py());
+sprite.getGraphics().lineTo(p2.px(), p2.py());
 }
 }
 
@@ -300,13 +299,13 @@ displayObjectOffset = new Vector(offsetX, offsetY);
 /**
 * @private
 */
-internal void initDisplay(){
+ void initDisplay(){
 if (collidable) {
 scp.initDisplay();
 } else {
-displayObject.x = displayObjectOffset.x;
-displayObject.y = displayObjectOffset.y;
-displayObject.rotation = displayObjectRotation;
+displayObject.setX(displayObjectOffset.x);
+displayObject.setY(displayObjectOffset.y);
+displayObject.setRotation(displayObjectRotation);
 sprite.addChild(displayObject);
 }
 }
@@ -335,12 +334,12 @@ void resolve(){
 
 if (p1.fixed() && p2.fixed()) return;
 
-Number deltaLength = currLength;
-Number diff = (deltaLength - restLength) / (deltaLength * (p1.invMass + p2.invMass));
-Vector dmds = delta.mult(diff * stiffness);
+double deltaLength = currLength();
+double diff = (deltaLength - restLength) / (deltaLength * (p1.invMass() + p2.invMass()));
+Vector dmds = delta().mult(diff * stiffness());
 
-p1.curr.minusEquals(dmds.mult(p1.invMass));
-p2.curr.plusEquals (dmds.mult(p2.invMass));
+p1.curr.minusEquals(dmds.mult(p1.invMass()));
+p2.curr.plusEquals (dmds.mult(p2.invMass()));
 }
 
 

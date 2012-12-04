@@ -1,3 +1,8 @@
+package com.akjava.gwt.gthape.client.ape;
+
+import com.akjava.gwt.gthape.display.Builders;
+import com.akjava.gwt.gthape.display.Sprite;
+
 /*
 Copyright (c) 2006, 2007 Alec Cove
 
@@ -42,8 +47,28 @@ because of the way RectangleParticle calculates the corners -- once on, they are
 constantly. that should be fixed too.
 
 - getContactPointParam should probably belong to the rectangleparticle and circleparticle classes.
-also the functions respective to each, for better OOD- clean up resolveCollision with submethods*/package org.cove.ape {import flash.display.Sprite;import flash.display.DisplayObject;internal class SpringConstraintParticle extends RectangleParticle {private AbstractParticle;private p1 AbstractParticle;private p2 Vector;private avgVelocity Vector;private lambda SpringConstraint;private parent Boolean;private scaleToLength Vector;private rca Vector;private rcb Number;private s Number;private _rectScale Number;private _rectHeight Number;public _fixedEndLimit null SpringConstraintParticle(AbstractParticle p1,AbstractParticle p2,SpringConstraint p,double rectHeight,double rectScale,boolean scaleToLength){
+also the functions respective to each, for better OOD- clean up resolveCollision with submethods*
+*/
+class SpringConstraintParticle extends RectangleParticle{
 
+	private AbstractParticle p1;
+	private AbstractParticle p2;
+
+	private Vector avgVelocity;
+	private Vector lambda;
+	private SpringConstraint parent;
+	private boolean scaleToLength;
+
+	private Vector rca;
+	private Vector rcb;
+	private double s;
+
+	private double rectScale;
+	private double rectHeight;
+	private double fixedEndLimit;
+
+	public  SpringConstraintParticle(AbstractParticle p1,AbstractParticle p2,SpringConstraint p,double rectHeight,double rectScale,boolean scaleToLength){
+	
 super(0,0,0,0,0,false);
 
 this.p1 = p1;
@@ -64,29 +89,29 @@ rcb = new Vector();
 
 
 
-internal void rectScale(double s){
-_rectScale = s;
+ void rectScale(double s){
+rectScale = s;
 }
 
 
 /**
 * @private
 */
-internal double rectScale(){
-return _rectScale;
+double rectScale(){
+return rectScale;
 }
 
 
-internal void rectHeight(double r){
-_rectHeight = r;
+ void rectHeight(double r){
+rectHeight = r;
 }
 
 
 /**
 * @private
 */
-internal double rectHeight(){
-return _rectHeight;
+ double rectHeight(){
+return rectHeight;
 }
 
 
@@ -96,102 +121,102 @@ return _rectHeight;
 * fixed particle, to correct for situations where the collision could never be
 * resolved.
 */
-internal void fixedEndLimit(double f){
-_fixedEndLimit = f;
+ void fixedEndLimit(double f){
+fixedEndLimit = f;
 }
 
 
 /**
 * @private
 */
-internal double fixedEndLimit(){
-return _fixedEndLimit;
+ double fixedEndLimit(){
+return fixedEndLimit;
 }
 
 
 /**
 * returns the average mass of the two connected particles
 */
-public override double mass(){
-return (p1.mass + p2.mass) / 2;
+public  double mass(){
+return (p1.mass() + p2.mass()) / 2;
 }
 
 
 /**
 * returns the average elasticity of the two connected particles
 */
-public override double elasticity(){
-return (p1.elasticity + p2.elasticity) / 2;
+public  double elasticity(){
+return (p1.elasticity() + p2.elasticity()) / 2;
 }
 
 
 /**
 * returns the average friction of the two connected particles
 */
-public override double friction(){
-return (p1.friction + p2.friction) / 2;
+public  double friction(){
+return (p1.friction() + p2.friction()) / 2;
 }
 
 
 /**
 * returns the average velocity of the two connected particles
 */
-public override Vector velocity(){
-Vector p1v =  p1.velocity;
-Vector p2v =  p2.velocity;
+public  Vector velocity(){
+Vector p1v =  p1.velocity();
+Vector p2v =  p2.velocity();
 
 avgVelocity.setTo(((p1v.x + p2v.x) / 2), ((p1v.y + p2v.y) / 2));
 return avgVelocity;
 }
 
 
-public override void init(){
+public  void init(){
 if (displayObject != null) {
 initDisplay();
 } else {
-Sprite inner = new Sprite();
+Sprite inner = Builders.getSpliteBuilder().createSprite();
 parent.sprite.addChild(inner);
-inner.name = "inner";
+inner.setName("inner");
 
-Number w = parent.currLength * rectScale;
-Number h = rectHeight;
+double w = parent.currLength() * rectScale;
+double h = rectHeight;
 
-inner.graphics.clear();
-inner.graphics.lineStyle(parent.lineThickness, parent.lineColor, parent.lineAlpha);
-inner.graphics.beginFill(parent.fillColor, parent.fillAlpha);
-inner.graphics.drawRect(-w/2, -h/2, w, h);
-inner.graphics.endFill();
+inner.getGraphics().clear();
+inner.getGraphics().lineStyle(parent.lineThickness, parent.lineColor, parent.lineAlpha);
+inner.getGraphics().beginFill(parent.fillColor, parent.fillAlpha);
+inner.getGraphics().drawRect(-w/2, -h/2, w, h);
+inner.getGraphics().endFill();
 }
 paint();
 }
 
 
-public override void paint(){
+public  void paint(){
 
-Vector c = parent.center;
+Vector c = parent.center();
 Sprite s = parent.sprite;
 
 if (scaleToLength) {
-s.getChildByName("inner").width = parent.currLength * rectScale;
+s.getChildByName("inner").setWidth(parent.currLength() * rectScale);
 } else if (displayObject != null) {
-s.getChildByName("inner").width = parent.restLength * rectScale;
+s.getChildByName("inner").setWidth( parent.restLength() * rectScale);
 }
-s.x = c.x;
-s.y = c.y;
-s.rotation = parent.angle;
+s.setX(c.x);
+s.setY(c.y);
+s.setRotation(parent.angle());
 }
 
 
 /**
 * @private
 */
-internal override void initDisplay(){
-displayObject.x = displayObjectOffset.x;
-displayObject.y = displayObjectOffset.y;
-displayObject.rotation = displayObjectRotation;
+void initDisplay(){
+displayObject.setX(displayObjectOffset.x);
+displayObject.setY(displayObjectOffset.y);
+displayObject.setRotation(displayObjectRotation);
 
-Sprite inner = new Sprite();
-inner.name = "inner";
+Sprite inner = Builders.getSpliteBuilder().createSprite();
+inner.setName("inner");
 
 inner.addChild(displayObject);
 parent.sprite.addChild(inner);
@@ -202,49 +227,49 @@ parent.sprite.addChild(inner);
 * @private
 * returns the average inverse mass.
 */
-internal override double invMass(){
-if (p1.fixed && p2.fixed) return 0;
-return 1 / ((p1.mass + p2.mass) / 2);
+double invMass(){
+if (p1.fixed() && p2.fixed()) return 0;
+return 1 / ((p1.mass() + p2.mass()) / 2);
 }
 
 
 /**
 * called only on collision
 */
-internal void updatePosition(){
-Vector c = parent.center;
+ void updatePosition(){
+Vector c = parent.center();
 curr.setTo(c.x, c.y);
 
-width = (scaleToLength) ? parent.currLength * rectScale : parent.restLength * rectScale;
-height = rectHeight;
-radian = parent.radian;
+width((scaleToLength) ? parent.currLength() * rectScale : parent.restLength() * rectScale);
+height(rectHeight);
+radian = parent.radian();
 }
 
 
-internal override void resolveCollision(Vector mtd,Vector vel,Vector n,double d,int o,AbstractParticle p){
+void resolveCollision(Vector mtd,Vector vel,Vector n,double d,int o,AbstractParticle p){
 
-Number t = getContactPointParam(p);
-Number c1 = (1 - t);
-Number c2 = t;
+double t = getContactPointParam(p);
+double c1 = (1 - t);
+double c2 = t;
 
 // if one is fixed then move the other particle the entire way out of collision.
 // also, dispose of collisions at the sides of the scp. The higher the fixedEndLimit
 // value, the more of the scp not be effected by collision.
-if (p1.fixed) {
+if (p1.fixed()) {
 if (c2 <= fixedEndLimit) return;
 lambda.setTo(mtd.x / c2, mtd.y / c2);
 p2.curr.plusEquals(lambda);
-p2.velocity = vel;
+p2.velocity(vel);
 
-} else if (p2.fixed) {
+} else if (p2.fixed()) {
 if (c1 <= fixedEndLimit) return;
 lambda.setTo(mtd.x / c1, mtd.y / c1);
 p1.curr.plusEquals(lambda);
-p1.velocity = vel;
+p1.velocity(vel);
 
 // else both non fixed - move proportionally out of collision
 } else {
-Number denom = (c1 * c1 + c2 * c2);
+double denom = (c1 * c1 + c2 * c2);
 if (denom == 0) return;
 lambda.setTo(mtd.x / denom, mtd.y / denom);
 
@@ -253,13 +278,13 @@ p2.curr.plusEquals(lambda.mult(c2));
 
 // if collision is in the middle of SCP set the velocity of both end particles
 if (t == 0.5) {
-p1.velocity = vel;
-p2.velocity = vel;
+p1.velocity(vel);
+p2.velocity(vel);
 
 // otherwise change the velocity of the particle closest to contact
 } else {
 AbstractParticle corrParticle = (t < 0.5) ? p1 : p2;
-corrParticle.velocity = vel;
+corrParticle.velocity(vel);
 }
 }
 }
@@ -271,7 +296,7 @@ corrParticle.velocity = vel;
 */
 private double closestParamPoint(Vector c){
 Vector ab = p2.curr.minus(p1.curr);
-Number t = (ab.dot(c.minus(p1.curr))) / (ab.dot(ab));
+double t = (ab.dot(c.minus(p1.curr))) / (ab.dot(ab));
 return MathUtil.clamp(t, 0, 1);
 }
 
@@ -281,22 +306,22 @@ return MathUtil.clamp(t, 0, 1);
 */
 private double getContactPointParam(AbstractParticle p){
 
-Number t
+double t=0;
 
-if (p is CircleParticle)  {
+if (p instanceof CircleParticle)  {
 t = closestParamPoint(p.curr);
-} else if (p is RectangleParticle) {
+} else if (p instanceof RectangleParticle) {
 
 // go through the sides of the colliding rectangle as line segments
-Number shortestIndex
-Array paramList = new Array(4);
-Number shortestDistance = Number.POSITIVE_INFINITY;
+int shortestIndex=0;
+double[] paramList = new double[4];
+double shortestDistance = Double.MAX_VALUE;
 
 for (int i = 0; i < 4; i++) {
-setCorners(p as RectangleParticle, i);
+setCorners((RectangleParticle)p, i);
 
 // check for closest points on SCP to side of rectangle
-Number d = closestPtSegmentSegment();
+double d = closestPtSegmentSegment();
 if (d < shortestDistance) {
 shortestDistance = d;
 shortestIndex = i;
@@ -314,21 +339,21 @@ return t;
 */
 private void setCorners(RectangleParticle r,int i){
 
-Number rx = r.curr.x;
-Number ry = r.curr.y;
+double rx = r.curr.x;
+double ry = r.curr.y;
 
-Array axes = r.axes;
-Array extents = r.extents;
+Vector[] axes = r.axes;//TODO need clone?
+double[] extents = r.extents;
 
-Number ae0_x = axes[0].x * extents[0];
-Number ae0_y = axes[0].y * extents[0];
-Number ae1_x = axes[1].x * extents[1];
-Number ae1_y = axes[1].y * extents[1];
+double ae0_x = axes[0].x * extents[0];
+double ae0_y = axes[0].y * extents[0];
+double ae1_x = axes[1].x * extents[1];
+double ae1_y = axes[1].y * extents[1];
 
-Number emx = ae0_x - ae1_x;
-Number emy = ae0_y - ae1_y;
-Number epx = ae0_x + ae1_x;
-Number epy = ae0_y + ae1_y;
+double emx = ae0_x - ae1_x;
+double emy = ae0_y - ae1_y;
+double epx = ae0_x + ae1_x;
+double epy = ae0_y + ae1_y;
 
 
 if (i == 0) {
@@ -376,19 +401,19 @@ Vector d1 = pq1.minus(pp1);
 Vector d2 = pq2.minus(pp2);
 Vector r = pp1.minus(pp2);
 
-Number t
-Number a = d1.dot(d1);
-Number e = d2.dot(d2);
-Number f = d2.dot(r);
+double t;
+double a = d1.dot(d1);
+double e = d2.dot(d2);
+double f = d2.dot(r);
 
-Number c = d1.dot(r);
-Number b = d1.dot(d2);
-Number denom = a * e - b * b;
+double c = d1.dot(r);
+double b = d1.dot(d2);
+double denom = a * e - b * b;
 
 if (denom != 0.0) {
 s = MathUtil.clamp((b * f - c * e) / denom, 0, 1);
 } else {
-s = 0.5 // give the midpoint for parallel lines
+s = 0.5; // give the midpoint for parallel lines
 }
 t = (b * s + f) / e;
 
@@ -404,6 +429,5 @@ Vector c1 = pp1.plus(d1.mult(s));
 Vector c2 = pp2.plus(d2.mult(t));
 Vector c1mc2 = c1.minus(c2);
 return c1mc2.dot(c1mc2);
-}
 }
 }
