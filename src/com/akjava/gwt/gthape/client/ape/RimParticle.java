@@ -26,15 +26,15 @@ TODO:
 
 package com.akjava.gwt.gthape.client.ape;
 
-internal class RimParticle {
+ class RimParticle {
 
-internal Vector curr
-internal Vector prev
+ Vector curr;
+ Vector prev;
 
-private Number wr
-private Number av
-private Number sp
-private Number maxTorque
+private double wr;
+private double av;
+private double sp;
+private double maxTorque;
 
 
 /**
@@ -44,7 +44,7 @@ private Number maxTorque
 *
 * Origins of this code are from Raigan Burns, Metanet Software
 */
-public null RimParticle(double r,double mt){
+public  RimParticle(double r,double mt){
 
 curr = new Vector(r, 0);
 prev = new Vector(0, 0);
@@ -56,54 +56,54 @@ maxTorque = mt;
 wr = r;
 }
 
-internal double speed(){
+ double speed(){
 return sp;
 }
 
-internal void speed(double s){
+ void speed(double s){
 sp = s;
 }
 
-internal double angularVelocity(){
+ double angularVelocity(){
 return av;
 }
 
-internal void angularVelocity(double s){
+ void angularVelocity(double s){
 av = s;
 }
 
 /**
 * Origins of this code are from Raigan Burns, Metanet Software
 */
-internal void update(double dt){
+ void update(double dt){
 
 //clamp torques to valid range
 sp = Math.max(-maxTorque, Math.min(maxTorque, sp + av));
 
 //apply torque
 //this is the tangent vector at the rim particle
-Number dx = -curr.y;
-Number dy =  curr.x;
+double dx = -curr.y;
+double dy =  curr.x;
 
 //normalize so we can scale by the rotational speed
-Number len = Math.sqrt(dx * dx + dy * dy);
+double len = Math.sqrt(dx * dx + dy * dy);
 dx /= len;
 dy /= len;
 
 curr.x += sp * dx;
 curr.y += sp * dy;
 
-Number ox = prev.x;
-Number oy = prev.y;
-Number px = prev.x = curr.x;
-Number py = prev.y = curr.y;
+double ox = prev.x;
+double oy = prev.y;
+double px = prev.x = curr.x;
+double py = prev.y = curr.y;
 
-curr.x += APEngine.damping * (px - ox);
-curr.y += APEngine.damping * (py - oy);
+curr.x += APEngine.damping() * (px - ox);
+curr.y += APEngine.damping() * (py - oy);
 
 // hold the rim particle in place
-Number clen = Math.sqrt(curr.x * curr.x + curr.y * curr.y);
-Number diff = (clen - wr) / clen;
+double clen = Math.sqrt(curr.x * curr.x + curr.y * curr.y);
+double diff = (clen - wr) / clen;
 
 curr.x -= curr.x * diff;
 curr.y -= curr.y * diff;
