@@ -26,14 +26,13 @@ TODO:
 
 package com.akjava.gwt.gthape.client.ape;
 
-import flash.display.Sprite;
 
 /**
 * A circle shaped particle.
 */
 public class CircleParticle extends AbstractParticle {
 
-private Number _radius
+private double radius;
 
 
 /**
@@ -48,17 +47,17 @@ private Number _radius
 * @param friction The surface friction of the particle.
 */
 //fixed=false,mass=1,elasticity=0.3,friction=0
-public CircleParticle null (double x,double y,double radius,boolean fixed,double mass,double elasticity,double friction){
+public CircleParticle  (double x,double y,double radius,boolean fixed,double mass,double elasticity,double friction){
 
 super(x, y, fixed, mass, elasticity, friction);
-_radius = radius;
+this.radius = radius;
 }
 
 /**
 * The radius of the particle.
 */
 public double radius(){
-return _radius;
+return radius;
 }
 
 
@@ -66,7 +65,7 @@ return _radius;
 * @private
 */
 public void radius(double r){
-_radius = r;
+radius = r;
 }
 
 
@@ -76,16 +75,16 @@ _radius = r;
 * the APEngine, when  this CircleParticle's Composite is added to a Group, or the
 * CircleParticle is added to a Composite or Group.
 */
-public override void init(){
+public  void init(){
 cleanup();
 if (displayObject != null) {
 initDisplay();
 } else {
-sprite.graphics.clear();
-sprite.graphics.lineStyle(lineThickness, lineColor, lineAlpha);
-sprite.graphics.beginFill(fillColor, fillAlpha);
-sprite.graphics.drawCircle(0, 0, radius);
-sprite.graphics.endFill();
+sprite.getGraphics().clear();
+sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
+sprite.getGraphics().beginFill(fillColor, fillAlpha);
+sprite.getGraphics().drawCircle(0, 0, radius);
+sprite.getGraphics().endFill();
 }
 paint();
 }
@@ -96,19 +95,19 @@ paint();
 * by the <code>APEngine.paint()</code> method. If you want to define your own custom painting
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
-public override void paint(){
-sprite.x = curr.x;
-sprite.y = curr.y;
+public  void paint(){
+sprite.setX(curr.x);
+sprite.setY(curr.y);
 }
 
 
 /**
 * @private
 */
-internal Interval getProjection(Vector axis){
-Number c = samp.dot(axis);
-interval.min = c - _radius;
-interval.max = c + _radius;
+ Interval getProjection(Vector axis){
+double c = samp.dot(axis);
+interval.min = c - radius;
+interval.max = c + radius;
 
 return interval;
 }
@@ -117,9 +116,9 @@ return interval;
 /**
 * @private
 */
-internal Interval getIntervalX(){
-interval.min = curr.x - _radius;
-interval.max = curr.x + _radius;
+ Interval getIntervalX(){
+interval.min = curr.x - radius;
+interval.max = curr.x + radius;
 return interval;
 }
 
@@ -127,9 +126,9 @@ return interval;
 /**
 * @private
 */
-internal Interval getIntervalY(){
-interval.min = curr.y - _radius;
-interval.max = curr.y + _radius;
+ Interval getIntervalY(){
+interval.min = curr.y - radius;
+interval.max = curr.y + radius;
 return interval;
 }
 }
