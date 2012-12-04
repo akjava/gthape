@@ -315,7 +315,7 @@ t = closestParamPoint(p.curr);
 // go through the sides of the colliding rectangle as line segments
 int shortestIndex=0;
 double[] paramList = new double[4];
-double shortestDistance = Double.MAX_VALUE;
+double shortestDistance = Double.POSITIVE_INFINITY;
 
 for (int i = 0; i < 4; i++) {
 setCorners((RectangleParticle)p, i);

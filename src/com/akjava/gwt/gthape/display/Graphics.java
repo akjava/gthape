@@ -14,4 +14,6 @@ public void lineStyle(double lineThickness, int lineColor, double lineAlpha);
 public void moveTo(double px, double py);
 
 public void lineTo(double px, double py);
+
+public void drawCircle(int i, int j, double radius);
 }
