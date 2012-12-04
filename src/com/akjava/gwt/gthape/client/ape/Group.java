@@ -30,6 +30,8 @@ cleaner.
 */
 package com.akjava.gwt.gthape.client.ape;
 
+import java.util.ArrayList;
+
 
 /**
 * The Group class can contain Particles, Constraints, and Composites. Groups
@@ -37,9 +39,9 @@ package com.akjava.gwt.gthape.client.ape;
 */
 public class Group extends AbstractCollection {
 
-private Array _composites
-private Array _collisionList
-private Boolean _collideInternal
+private ArrayList<Composite> composites;
+private ArrayList<Group> collisionList;
+private boolean collideInternal;
 
 
 /**
@@ -48,9 +50,9 @@ private Boolean _collideInternal
 * particles, constraints, and composites. Composites may only contain particles and constraints.
 */
 //collideInternal=false
-public null Group(boolean collideInternal){
-_composites = new Array();
-_collisionList = new Array();
+public  Group(boolean collideInternal){
+composites = new ArrayList<Composite>();
+collisionList = new ArrayList<Group>();
 this.collideInternal = collideInternal;
 }
 
@@ -59,10 +61,10 @@ this.collideInternal = collideInternal;
 * Initializes every member of this Group by in turn calling
 * each members <code>init()</code> method.
 */
-public override void init(){
+public  void init(){
 super.init();
-for (int i = 0; i < composites.length; i++) {
-composites[i].init();
+for (int i = 0; i < composites.size(); i++) {
+composites.get(i).init();
 }
 }
 
@@ -70,8 +72,8 @@ composites[i].init();
 /**
 * Returns an Array containing all the Composites added to this Group
 */
-public ArrayList composites(){
-return _composites;
+public ArrayList<Composite> composites(){
+return composites;
 }
 
 
@@ -81,9 +83,9 @@ return _composites;
 * @param c The Composite to be added.
 */
 public void addComposite(Composite c){
-composites.push(c);
-c.isParented = true;
-if (isParented) c.init();
+composites.add(c);
+c.isParented(true);
+if (isParented()) c.init();
 }
 
 
@@ -95,8 +97,8 @@ if (isParented) c.init();
 public void removeComposite(Composite c){
 int cpos = composites.indexOf(c);
 if (cpos == -1) return;
-composites.splice(cpos, 1);
-c.isParented = false;
+composites.remove(cpos);
+c.isParented(false);
 c.cleanup();
 }
 
@@ -105,13 +107,13 @@ c.cleanup();
 * Paints all members of this Group. This method is called automatically
 * by the APEngine class.
 */
-public override void paint(){
+public  void paint(){
 
 super.paint();
 
-int len = _composites.length;
+int len = composites.size();
 for (int i = 0; i < len; i++) {
-Composite c = _composites[i];
+Composite c = composites.get(i);
 c.paint();
 }
 }
@@ -122,7 +124,7 @@ c.paint();
 * this one.
 */
 public void addCollidable(Group g){
-collisionList.push(g);
+collisionList.add(g);
 }
 
 
@@ -132,7 +134,7 @@ collisionList.push(g);
 public void removeCollidable(Group g){
 int pos = collisionList.indexOf(g);
 if (pos == -1) return;
-collisionList.splice(pos, 1);
+collisionList.remove(pos);
 }
 
 
@@ -140,10 +142,10 @@ collisionList.splice(pos, 1);
 * Adds an array of AbstractCollection instances to be checked for collision
 * against this one.
 */
-public void addCollidableList(ArrayList list){
-for (int i = 0; i < list.length; i++) {
-Group g = list[i];
-collisionList.push(g);
+public void addCollidableList(ArrayList<Group> list){
+for (int i = 0; i < list.size(); i++) {
+Group g = list.get(i);
+collisionList.add(g);
 }
 }
 
@@ -152,16 +154,18 @@ collisionList.push(g);
 * Returns the array of every Group assigned to collide with
 * this Group instance.
 */
-public ArrayList collisionList(){
-return _collisionList;
+public ArrayList<Group> collisionList(){
+return collisionList;
 }
 
 
 /**
 * Returns an array of every particle, constraint, and composite added to the Group.
 */
-public override ArrayList getAll(){
-return particles.concat(constraints).concat(composites);
+public  ArrayList<Object> getAll(){
+	ArrayList<Object> all=super.getAll();
+	all.addAll(composites);
+return all;
 }
 
 
@@ -170,7 +174,7 @@ return particles.concat(constraints).concat(composites);
 * collision with one another.
 */
 public boolean collideInternal(){
-return _collideInternal;
+return collideInternal;
 }
 
 
@@ -178,7 +182,7 @@ return _collideInternal;
 * @private
 */
 public void collideInternal(boolean b){
-_collideInternal = b;
+collideInternal = b;
 }
 
 
@@ -187,10 +191,10 @@ _collideInternal = b;
 * The cleanup() method is called automatically when an Group is removed
 * from the APEngine.
 */
-public override void cleanup(){
+public  void cleanup(){
 super.cleanup();
-for (int i = 0; i < composites.length; i++) {
-composites[i].cleanup();
+for (int i = 0; i < composites.size(); i++) {
+composites.get(i).cleanup();
 }
 }
 
@@ -198,13 +202,13 @@ composites[i].cleanup();
 /**
 * @private
 */
-internal override void integrate(double dt2){
+void integrate(double dt2){
 
 super.integrate(dt2);
 
-int len = _composites.length;
+int len = composites.size();
 for (int i = 0; i < len; i++) {
-Composite cmp = _composites[i];
+Composite cmp = composites.get(i);
 cmp.integrate(dt2);
 }
 }
@@ -213,13 +217,13 @@ cmp.integrate(dt2);
 /**
 * @private
 */
-internal override void satisfyConstraints(){
+void satisfyConstraints(){
 
 super.satisfyConstraints();
 
-int len = _composites.length;
+int len = composites.size();
 for (int i = 0; i < len; i++) {
-Composite cmp = _composites[i];
+Composite cmp = composites.get(i);
 cmp.satisfyConstraints();
 }
 }
@@ -228,13 +232,13 @@ cmp.satisfyConstraints();
 /**
 * @private
 */
-internal void checkCollisions(){
+void checkCollisions(){
 
 if (collideInternal) checkCollisionGroupInternal();
 
-int len = collisionList.length;
+int len = collisionList.size();
 for (int i = 0; i < len; i++) {
-Group g = collisionList[i];
+Group g = collisionList.get(i);
 checkCollisionVsGroup(g);
 }
 }
@@ -246,17 +250,17 @@ private void checkCollisionGroupInternal(){
 checkInternalCollisions();
 
 // for every composite in this Group..
-int clen = _composites.length;
+int clen = composites.size();
 for (int j = 0; j < clen; j++) {
 
-Composite ca = _composites[j];
+Composite ca = composites.get(j);
 
 // .. vs non composite particles and constraints in this group
 ca.checkCollisionsVsCollection(this);
 
 // ...vs every other composite in this Group
-for (var i:int = j + 1; i < clen; i++) {
-Composite cb = _composites[i];
+for (int i = j + 1; i < clen; i++) {
+Composite cb = composites.get(i);
 ca.checkCollisionsVsCollection(cb);
 }
 }
@@ -268,26 +272,26 @@ private void checkCollisionVsGroup(Group g){
 // check particles and constraints not in composites of either group
 checkCollisionsVsCollection(g);
 
-int clen = _composites.length;
-int gclen = g.composites.length;
+int clen = composites.size();
+int gclen = g.composites().size();
 
 // for every composite in this group..
 for (int i = 0; i < clen; i++) {
 
 // check vs the particles and constraints of g
-Composite c = _composites[i];
+Composite c = composites.get(i);
 c.checkCollisionsVsCollection(g);
 
 // check vs composites of g
 for (int j = 0; j < gclen; j++) {
-Composite gc = g.composites[j];
+Composite gc = g.composites().get(j);
 c.checkCollisionsVsCollection(gc);
 }
 }
 
 // check particles and constraints of this group vs the composites of g
-for (j = 0; j < gclen; j++) {
-gc = g.composites[j];
+for (int j = 0; j < gclen; j++) {
+Composite gc = g.composites().get(j);
 checkCollisionsVsCollection(gc);
 }
 }
