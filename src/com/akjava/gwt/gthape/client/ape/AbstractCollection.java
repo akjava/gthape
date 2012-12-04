@@ -35,7 +35,7 @@ package com.akjava.gwt.gthape.client.ape;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.akjava.gwt.gthape.display.Sprite;
+import com.akjava.gwt.gthape.client.display.Sprite;
 
 
 

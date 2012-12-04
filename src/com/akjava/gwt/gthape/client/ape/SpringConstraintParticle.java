@@ -1,7 +1,7 @@
 package com.akjava.gwt.gthape.client.ape;
 
-import com.akjava.gwt.gthape.display.Builders;
-import com.akjava.gwt.gthape.display.Sprite;
+import com.akjava.gwt.gthape.client.display.Builders;
+import com.akjava.gwt.gthape.client.display.Sprite;
 
 /*
 Copyright (c) 2006, 2007 Alec Cove

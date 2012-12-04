@@ -27,7 +27,7 @@ TODO:
 - Should have alwaysRepaint functionality for Constraints, and bump up to AbstractItem- See if there's anywhere where Vectors can be downgraded to simple Point classes*/
 
 
-import com.akjava.gwt.gthape.display.DisplayObject;
+import com.akjava.gwt.gthape.client.display.DisplayObject;
 /*** The abstract base class for all particles.** <p>* You should not instantiate this class directly -- instead use one of the subclasses.* </p>*/
 public abstract class AbstractParticle extends AbstractItem {
 

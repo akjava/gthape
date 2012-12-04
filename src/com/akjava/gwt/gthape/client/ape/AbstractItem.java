@@ -25,9 +25,9 @@ TODO:
 
 package com.akjava.gwt.gthape.client.ape;
 
-import com.akjava.gwt.gthape.display.Builders;
-import com.akjava.gwt.gthape.display.DisplayObject;
-import com.akjava.gwt.gthape.display.Sprite;
+import com.akjava.gwt.gthape.client.display.Builders;
+import com.akjava.gwt.gthape.client.display.DisplayObject;
+import com.akjava.gwt.gthape.client.display.Sprite;
 
 /**
 * The base class for all constraints and particles

@@ -1,4 +1,4 @@
-package com.akjava.gwt.gthape.display;
+package com.akjava.gwt.gthape.client.display;
 
 public interface DisplayObject {
 public void setX(double x);
@@ -11,4 +11,6 @@ public void setWidth(double w);
 public void setHeight(double h);
 public double getWidth();
 public double getHeight();
+public void setName(String string);
+public String getName();
 }

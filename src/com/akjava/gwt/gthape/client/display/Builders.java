@@ -1,4 +1,4 @@
-package com.akjava.gwt.gthape.display;
+package com.akjava.gwt.gthape.client.display;
 
 public class Builders {
 private static SpriteBuilder spliteBuilder;

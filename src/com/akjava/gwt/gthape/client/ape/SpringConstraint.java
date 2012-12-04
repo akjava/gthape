@@ -30,7 +30,7 @@ TODO:
 */
 package com.akjava.gwt.gthape.client.ape;
 
-import com.akjava.gwt.gthape.display.DisplayObject;
+import com.akjava.gwt.gthape.client.display.DisplayObject;
 
 /**
 * A Spring-like constraint that connects two particles

@@ -33,7 +33,7 @@ dont involve non-collidable constraints
 
 import java.util.ArrayList;
 
-import com.akjava.gwt.gthape.display.DisplayObjectContainer;
+import com.akjava.gwt.gthape.client.display.DisplayObjectContainer;
 
 /**
 * The main engine class.
@@ -50,11 +50,11 @@ private static ArrayList<Group> groups ;
 private static int numGroups ;
 private static double timeStep ;
 
-private static double _damping ;
-private static DisplayObjectContainer _container ;
+private static double damping ;
+public static DisplayObjectContainer container ;
 
-private static int _constraintCycles ;
-private static int _constraintCollisionCycles ;
+private static int constraintCycles ;
+private static int constraintCollisionCycles ;
 
 
 /**
@@ -78,10 +78,10 @@ groups = new ArrayList<Group>();
 force = new Vector(0,0);
 masslessForce = new Vector(0,0);
 
-_damping = 1;
+damping = 1;
 
-_constraintCycles = 0;
-_constraintCollisionCycles = 1;
+constraintCycles = 0;
+constraintCollisionCycles = 1;
 }
 
 
@@ -98,7 +98,7 @@ _constraintCollisionCycles = 1;
 * @param d The damping value. Values should be >=0 and <=1.
 */
 public static double damping(){
-return _damping;
+return damping;
 }
 
 
@@ -106,7 +106,7 @@ return _damping;
 * @private
 */
 public static void damping(double d){
-_damping = d;
+damping = d;
 }
 
 
@@ -129,7 +129,7 @@ _damping = d;
 *
 */
 public static int constraintCycles(){
-return _constraintCycles;
+return constraintCycles;
 }
 
 
@@ -137,7 +137,7 @@ return _constraintCycles;
 * @private
 */
 public static void constraintCycles(int numCycles){
-_constraintCycles = numCycles;
+constraintCycles = numCycles;
 }
 
 
@@ -156,7 +156,7 @@ _constraintCycles = numCycles;
 * </p>
 */
 public static int constraintCollisionCycles(){
-return _constraintCollisionCycles;
+return constraintCollisionCycles;
 }
 
 
@@ -164,7 +164,7 @@ return _constraintCollisionCycles;
 * @private
 */
 public static void constraintCollisionCycles(int numCycles){
-_constraintCollisionCycles = numCycles;
+constraintCollisionCycles = numCycles;
 }
 
 
@@ -176,7 +176,7 @@ _constraintCollisionCycles = numCycles;
 * @param s An instance of the Sprite class that will be used as the default container.
 */
 public static DisplayObjectContainer container(){
-return _container;
+return container;
 }
 
 
@@ -184,7 +184,7 @@ return _container;
 * @private
 */
 public static void container(DisplayObjectContainer d){
-_container = d;
+container = d;
 }
 
 
@@ -243,12 +243,13 @@ g.cleanup();
 
 
 /**
-* The main step of the engine. This method should be called* continously to advance the simulation. The faster this method is* called, the faster the simulation will run. Usually you would call* this in your main program loop.*/public static void step(){
+* The main step of the engine. This method should be called* continously to advance the simulation. The faster this method is* called, the faster the simulation will run. Usually you would call* this in your main program loop.*/
+public static void step(){
 integrate();
-for (int j = 0; j < _constraintCycles; j++) {
+for (int j = 0; j < constraintCycles; j++) {
 satisfyConstraints();
 }
-for (int i = 0; i < _constraintCollisionCycles; i++) {
+for (int i = 0; i < constraintCollisionCycles; i++) {
 satisfyConstraints();
 checkCollisions();
 }
