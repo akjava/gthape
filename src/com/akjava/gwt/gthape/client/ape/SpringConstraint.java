@@ -38,12 +38,12 @@ import flash.display.DisplayObject;
 */
 public class SpringConstraint extends AbstractConstraint {
 
-private AbstractParticle p1
-private AbstractParticle p2
+private AbstractParticle p1;
+private AbstractParticle p2;
 
-private Number _restLength
-private Boolean _collidable
-private SpringConstraintParticle _scp
+private Number restLength;
+private Boolean collidable;
+private SpringConstraintParticle scp;
 
 /**
 * @param p1 The first particle this constraint is connected to.
@@ -60,7 +60,7 @@ private SpringConstraintParticle _scp
 * collidable area will scale based on changes in the distance of the two particles.
 */
 //stiffness=0.5,collidable=false,rectHeight=1,rectScale=1,scaleToLength=false
-public null SpringConstraint(AbstractParticle p1,AbstractParticle p2,double stiffness,boolean collidable,double rectHeight,double rectScale,boolean scaleToLength){
+public  SpringConstraint(AbstractParticle p1,AbstractParticle p2,double stiffness,boolean collidable,double rectHeight,double rectScale,boolean scaleToLength){
 
 super(stiffness);
 
@@ -68,7 +68,7 @@ this.p1 = p1;
 this.p2 = p2;
 checkParticlesLocation();
 
-_restLength = currLength;
+restLength = currLength;
 setCollidable(collidable, rectHeight, rectScale, scaleToLength);
 }
 
@@ -315,7 +315,7 @@ sprite.addChild(displayObject);
 /**
 * @private
 */
-internal Vector delta(){
+ Vector delta(){
 return p1.curr.minus(p2.curr);
 }
 
@@ -323,17 +323,17 @@ return p1.curr.minus(p2.curr);
 /**
 * @private
 */
-internal SpringConstraintParticle scp(){
-return _scp;
+ SpringConstraintParticle scp(){
+return scp;
 }
 
 
 /**
 * @private
 */
-internal override void resolve(){
+void resolve(){
 
-if (p1.fixed && p2.fixed) return;
+if (p1.fixed() && p2.fixed()) return;
 
 Number deltaLength = currLength;
 Number diff = (deltaLength - restLength) / (deltaLength * (p1.invMass + p2.invMass));

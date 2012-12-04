@@ -21,7 +21,7 @@ OR THE USE OR OTHER DEALINGS IN THE SOFTWARE.
 
 package com.akjava.gwt.gthape.client.ape;
 
-internal final class MathUtil {
+ final class MathUtil {
 
 protected static double ONE_EIGHTY_OVER_PI = 180 / Math.PI; ;
 protected static double PI_OVER_ONE_EIGHTY = Math.PI / 180; ;
@@ -29,7 +29,7 @@ protected static double PI_OVER_ONE_EIGHTY = Math.PI / 180; ;
 /**
 * Returns n clamped between min and max
 */
-internal static double clamp(double n,double min,double max){
+ static double clamp(double n,double min,double max){
 if (n < min) return min;
 if (n > max) return max;
 return n;
@@ -39,8 +39,8 @@ return n;
 /**
 * Returns 1 if the value is >= 0. Returns -1 if the value is < 0.
 */
-internal static int sign(double val){
-if (val < 0) return -1
+ static int sign(double val){
+if (val < 0) return -1;
 return 1;
 }
 }

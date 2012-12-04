@@ -33,6 +33,7 @@ what an AbstractConstraint really means.
 package com.akjava.gwt.gthape.client.ape;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import com.akjava.gwt.gthape.display.Sprite;
 
@@ -157,14 +158,16 @@ AbstractParticle p;
 int len = particles.size();
 for (int i = 0; i < len; i++) {
 p = particles.get(i);
-if ((! p.fixed) || p.alwaysRepaint) p.paint();
+if ((! p.fixed()) || p.alwaysRepaint()) p.paint();
 }
 
 AbstractConstraint c;//strange
 len = constraints.size();
 for (int i = 0; i < len; i++) {
 c = constraints.get(i);
-if ((! c.fixed) || c.alwaysRepaint) c.paint();
+
+//if ((! c.fixed()) || c.alwaysRepaint()) c.paint();//constraint have no fixed.//TODO research it again later
+if (c.alwaysRepaint()) c.paint();
 }
 }
 
@@ -176,11 +179,11 @@ if ((! c.fixed) || c.alwaysRepaint) c.paint();
 */
 public void cleanup(){
 
-for (int i = 0; i < particles.length; i++) {
-particles[i].cleanup();
+for (int i = 0; i < particles.size(); i++) {
+particles.get(i).cleanup();
 }
-for (i = 0; i < constraints.length; i++) {
-constraints[i].cleanup();
+for (int i = 0; i < constraints.size(); i++) {
+constraints.get(i).cleanup();
 }
 }
 
@@ -190,51 +193,56 @@ constraints[i].cleanup();
 * sprite is requested for the first time it is automatically added to the global
 * container in the APEngine class.
 */
+/*
+ * AbstractItem had it.
 public Sprite sprite(){
 
 if (_sprite != null) return _sprite;
 
-if (APEngine.container == null) {
-throw new Error("The container property of the APEngine class has not been set");
+if (APEngine.container() == null) {
+throw new RuntimeException("The container property of the APEngine class has not been set");
 }
 
 _sprite = new Sprite();
 APEngine.container.addChild(_sprite);
 return _sprite;
 }
-
+*/
 
 /**
 * Returns an array of every particle and constraint added to the AbstractCollection.
 */
-public ArrayList getAll(){
-return particles.concat(constraints);
+public ArrayList<AbstractItem> getAll(){//this must be slow TODO think more
+	ArrayList<AbstractItem> items=new ArrayList<AbstractItem>();
+	items.addAll(particles);
+	items.addAll(constraints);
+return items;
 }
 
 
 /**
 * @private
 */
-internal boolean isParented(){
-return _isParented;
+ boolean isParented(){
+return isParented;
 }
 
 
 /**
 * @private
 */
-internal void isParented(boolean b){
-_isParented = b;
+ void isParented(boolean b){
+isParented = b;
 }
 
 
 /**
 * @private
 */
-internal void integrate(double dt2){
-int len = _particles.length;
+ void integrate(double dt2){
+int len = particles.size();
 for (int i = 0; i < len; i++) {
-AbstractParticle p = _particles[i];
+AbstractParticle p = particles.get(i);
 p.update(dt2);
 }
 }
@@ -243,10 +251,10 @@ p.update(dt2);
 /**
 * @private
 */
-internal void satisfyConstraints(){
-int len = _constraints.length;
+ void satisfyConstraints(){
+int len = constraints.size();
 for (int i = 0; i < len; i++) {
-AbstractConstraint c = _constraints[i];
+AbstractConstraint c = constraints.get(i);
 c.resolve();
 }
 }
@@ -255,26 +263,26 @@ c.resolve();
 /**
 * @private
 */
-internal void checkInternalCollisions(){
+ void checkInternalCollisions(){
 
 // every particle in this AbstractCollection
-int plen = _particles.length;
-for (int j = 0; j < plen; j++) {
+int plen = particles.size();
+for (int j=0;j<plen;j++) {
 
-AbstractParticle pa = _particles[j];
-if (! pa.collidable) continue;
+AbstractParticle pa = particles.get(j);
+if (! pa.collidable()) continue;
 
 // ...vs every other particle in this AbstractCollection
-for (var i:int = j + 1; i < plen; i++) {
-AbstractParticle pb = _particles[i];
-if (pb.collidable) CollisionDetector.test(pa, pb);
+for (int i = j + 1; i < plen; i++) {
+AbstractParticle pb = particles.get(i);
+if (pb.collidable()) CollisionDetector.test(pa, pb);
 }
 
 // ...vs every other constraint in this AbstractCollection
-int clen = _constraints.length;
-for (var n:int = 0; n < clen; n++) {
-SpringConstraint c = _constraints[n];
-if (c.collidable && ! c.isConnectedTo(pa)) {
+int clen = constraints.size();
+for (int n = 0; n < clen; n++) {
+SpringConstraint c = (SpringConstraint) constraints.get(n);//TODO fix but now sprint is only constraint
+if (c.collidable() && ! c.isConnectedTo(pa)) {
 c.scp.updatePosition();
 CollisionDetector.test(pa, c.scp);
 }
