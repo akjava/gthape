@@ -74,7 +74,7 @@ this.friction(friction);
 setStyle();
 
 center = new Vector();
-multisample = 0;
+multisample(0);
 }
 
 

@@ -59,6 +59,9 @@ private SpringConstraintParticle scp;
 * collidable area will scale based on changes in the distance of the two particles.
 */
 //stiffness=0.5,collidable=false,rectHeight=1,rectScale=1,scaleToLength=false
+public  SpringConstraint(AbstractParticle p1,AbstractParticle p2,double stiffness,boolean collidable,double rectHeight){
+this(p1,p2,stiffness,collidable,rectHeight,1,false);
+}
 public  SpringConstraint(AbstractParticle p1,AbstractParticle p2,double stiffness,boolean collidable,double rectHeight,double rectScale,boolean scaleToLength){
 
 super(stiffness);
@@ -268,14 +271,18 @@ if (collidable) {
 scp.paint();
 } else if (displayObject != null) {
 Vector c = center();
+if(sprite!=null){
 sprite.setX(c.x);
 sprite.setY(c.y);
 sprite.setRotation(angle());
+}
 } else {
+if(sprite!=null){
 sprite.getGraphics().clear();
 sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
 sprite.getGraphics().moveTo(p1.px(), p1.py());
 sprite.getGraphics().lineTo(p2.px(), p2.py());
+}
 }
 }
 

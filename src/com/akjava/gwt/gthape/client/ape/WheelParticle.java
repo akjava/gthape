@@ -57,6 +57,13 @@ private double traction;
 * </p>
 */
 //fixed=false,mass=1,elasticity=0.3,friction=0,traction=1
+public  WheelParticle(double x,double y,double radius){
+this(x,y,radius,false,1,0.3,0,1);
+}
+public  WheelParticle(double x,double y,double radius,boolean fixed,double mass){
+this(x,y,radius,fixed,mass,0.3,0,1);
+}
+
 public  WheelParticle(double x,double y,double radius,boolean fixed,double mass,double elasticity,double friction,double traction){
 
 super(x,y,radius,fixed, mass, elasticity, friction);
@@ -136,6 +143,9 @@ traction = 1 - t;
 * class you can define your own custom painting method.
 */
 public  void paint(){
+if(sprite==null){
+	return;
+}
 sprite.setX(curr.x);
 sprite.setY(curr.y);
 sprite.setRotation(angle());
@@ -151,7 +161,7 @@ cleanup();
 if (displayObject != null) {
 initDisplay();
 } else {
-
+if(sprite!=null){
 sprite.getGraphics().clear();
 sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
 
@@ -165,6 +175,7 @@ sprite.getGraphics().moveTo(-radius(), 0);
 sprite.getGraphics().lineTo( radius(), 0);
 sprite.getGraphics().moveTo(0, -radius());
 sprite.getGraphics().lineTo(0, radius());
+}
 }
 paint();
 }

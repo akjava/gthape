@@ -7,10 +7,11 @@ import com.akjava.gwt.gthape.client.ape.AbstractParticle;
 import com.akjava.gwt.gthape.client.ape.CircleParticle;
 import com.akjava.gwt.gthape.client.ape.Group;
 import com.akjava.gwt.gthape.client.ape.RectangleParticle;
+import com.akjava.gwt.gthape.client.ape.SpringConstraint;
 import com.akjava.gwt.gthape.client.ape.Vector;
+import com.akjava.gwt.gthape.client.ape.WheelParticle;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
-import com.google.gwt.core.client.JavaScriptObject;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.user.client.ui.Button;
@@ -20,8 +21,12 @@ import com.google.gwt.user.client.ui.VerticalPanel;
 public class GTHApeTest implements EntryPoint {
 
 	private Canvas canvas;
-	private Group group;
-	private CircleParticle ball;
+	
+	
+
+	private Group defaultGroup;
+
+	private CircleParticle circle;
 	@Override
 	public void onModuleLoad() {
 		VerticalPanel root=new VerticalPanel();
@@ -29,21 +34,28 @@ public class GTHApeTest implements EntryPoint {
 		
 		APEngine.container(new ArrayListDisplayObjectContainer());
 		APEngine.init(1.0);
-		APEngine.addMasslessForce(new Vector(0,3));
 		
-		group = new Group(true);
-		group.addParticle(new RectangleParticle(160,500,320,40,0,true,1,0.5,0));
-		group.addParticle(new RectangleParticle(160,50,320,40,0,true,1,0.5,0));
+		APEngine.addMasslessForce(new Vector(0,2));
+		defaultGroup = new Group(true);
+				
+		circle = new CircleParticle(250,10,5);
+		defaultGroup.addParticle(circle);         	
+		WheelParticle wp = new WheelParticle(280,10,5,false,1,0.3,0.1,1);
+		defaultGroup.addParticle(wp);
+		RectangleParticle rp = new RectangleParticle(250,300,200,10,-0.52,true);
+		defaultGroup.addParticle(rp);      
+		RectangleParticle rp2 = new RectangleParticle(150,200,200,10,0.52,true);
+		defaultGroup.addParticle(rp2);        
+		RectangleParticle rp3 = new RectangleParticle(250,50,200,10,-0.52,true);
+		defaultGroup.addParticle(rp3);
+		WheelParticle wa  = new WheelParticle(160,20,10,false,2);
+		defaultGroup.addParticle(wa);		
+		WheelParticle wb = new WheelParticle(200,20,10,false,2);
+		defaultGroup.addParticle(wb);		
+		SpringConstraint wc  = new SpringConstraint(wa, wb, 0.5, true, 3);
+		defaultGroup.addConstraint(wc); 
 		
-		ball = new CircleParticle(200,100,0.5);
-		//ball.addForce(new Vector(10,-200));
-		group.addParticle(ball);
-		
-		final RectangleParticle ball2 = new RectangleParticle(100,400,5,5,0,false);
-		ball.addForce(new Vector(10,-10));
-		group.addParticle(ball2);
-		
-		APEngine.addGroup(group);
+		APEngine.addGroup(defaultGroup);
 		
 		//APEngine.step();
 		
@@ -85,7 +97,7 @@ public class GTHApeTest implements EntryPoint {
 	private void updateCanvas() {
 		canvas.getContext2d().clearRect(0, 0, canvas.getCoordinateSpaceWidth(), canvas.getCoordinateSpaceHeight());
 		
-		for(AbstractParticle p:group.particles()){
+		for(AbstractParticle p:defaultGroup.particles()){
 			if(p instanceof RectangleParticle){
 				//log(p.toString());
 				fillParticle((RectangleParticle)p);
@@ -95,7 +107,7 @@ public class GTHApeTest implements EntryPoint {
 			}
 		}
 		
-		APEngine.log(ball.px()+":"+ball.py());
+		APEngine.log(circle.px()+":"+circle.py());
 		
 		APEngine.step();
 	}
