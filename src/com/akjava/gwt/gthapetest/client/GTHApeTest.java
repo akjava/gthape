@@ -33,7 +33,7 @@ public class GTHApeTest implements EntryPoint {
 		RootPanel.get().add(root);
 		
 		APEngine.container(new ArrayListDisplayObjectContainer());
-		APEngine.init(1.0);
+		APEngine.init(1.0/3);
 		
 		APEngine.addMasslessForce(new Vector(0,2));
 		defaultGroup = new Group(true);
@@ -42,11 +42,11 @@ public class GTHApeTest implements EntryPoint {
 		defaultGroup.addParticle(circle);         	
 		WheelParticle wp = new WheelParticle(280,10,5,false,1,0.3,0.1,1);
 		defaultGroup.addParticle(wp);
-		RectangleParticle rp = new RectangleParticle(250,300,200,10,-0.52,true);
+		RectangleParticle rp = new RectangleParticle(250,300,200,10,0,true);
 		defaultGroup.addParticle(rp);      
-		RectangleParticle rp2 = new RectangleParticle(150,200,200,10,0.52,true);
+		RectangleParticle rp2 = new RectangleParticle(150,200,200,10,0,true);
 		defaultGroup.addParticle(rp2);        
-		RectangleParticle rp3 = new RectangleParticle(250,50,200,10,-0.52,true);
+		RectangleParticle rp3 = new RectangleParticle(250,50,200,10,0,true);
 		defaultGroup.addParticle(rp3);
 		WheelParticle wa  = new WheelParticle(160,20,10,false,2);
 		defaultGroup.addParticle(wa);		
