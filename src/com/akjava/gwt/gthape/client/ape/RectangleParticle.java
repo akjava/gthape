@@ -64,7 +64,7 @@ super(x, y, fixed, mass, elasticity, friction);
 
 extents = new double[]{width/2, height/2};
 axes = new Vector[]{new Vector(0,0), new Vector(0,0)};
-radian = rotation;
+radian(rotation);
 }
 
 
@@ -123,12 +123,13 @@ initDisplay();
 
 double w = extents[0] * 2;
 double h = extents[1] * 2;
-
+if(sprite!=null){
 sprite.getGraphics().clear();//TODO think something
 sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
 sprite.getGraphics().beginFill(fillColor, fillAlpha);
 sprite.getGraphics().drawRect(-w/2, -h/2, w, h);
 sprite.getGraphics().endFill();
+}
 }
 paint();
 }
@@ -140,9 +141,11 @@ paint();
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
 public  void paint(){
+if(sprite!=null){	
 sprite.setX(curr.x);
 sprite.setY(curr.y);
 sprite.setRotation(angle());
+}
 }
 
 

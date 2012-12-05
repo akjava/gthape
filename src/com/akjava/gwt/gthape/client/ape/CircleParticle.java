@@ -47,10 +47,14 @@ private double radius;
 * @param friction The surface friction of the particle.
 */
 //fixed=false,mass=1,elasticity=0.3,friction=0
+
+public  CircleParticle (double x,double y,double radius){
+	this(x,y,radius,false,1,0.3,0);
+}
 public CircleParticle  (double x,double y,double radius,boolean fixed,double mass,double elasticity,double friction){
 
 super(x, y, fixed, mass, elasticity, friction);
-this.radius = radius;
+radius(radius);
 }
 
 /**
@@ -80,11 +84,13 @@ cleanup();
 if (displayObject != null) {
 initDisplay();
 } else {
+if(sprite!=null){
 sprite.getGraphics().clear();
 sprite.getGraphics().lineStyle(lineThickness, lineColor, lineAlpha);
 sprite.getGraphics().beginFill(fillColor, fillAlpha);
 sprite.getGraphics().drawCircle(0, 0, radius);
 sprite.getGraphics().endFill();
+}
 }
 paint();
 }
@@ -96,8 +102,10 @@ paint();
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
 public  void paint(){
+if(sprite!=null){	
 sprite.setX(curr.x);
 sprite.setY(curr.y);
+}
 }
 
 

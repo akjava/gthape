@@ -61,15 +61,15 @@ curr = new Vector(x, y);
 prev = new Vector(x, y);
 samp = new Vector();
 temp = new Vector();
-fixed = isFixed;
+fixed(isFixed);
 
 forces = new Vector();
 collision = new Collision(new Vector(), new Vector());
-collidable = true;
+collidable(true);
 
-this.mass = mass;
-this.elasticity = elasticity;
-this.friction = friction;
+this.mass(mass);
+this.elasticity(elasticity);
+this.friction(friction);
 
 setStyle();
 
@@ -383,10 +383,12 @@ forces.setTo(0,0);
 * @private
 */
 void initDisplay(){
+if(displayObject!=null && sprite!=null){//TODO remove	
 displayObject.setX( displayObjectOffset.x);
 displayObject.setY(displayObjectOffset.y);
 displayObject.setRotation(displayObjectRotation);
 sprite.addChild(displayObject);
+}
 }
 
 

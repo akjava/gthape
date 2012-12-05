@@ -58,8 +58,8 @@ double displayObjectRotation;
 
 
 public AbstractItem() {
-visible = true;
-alwaysRepaint = false;
+visible(true);
+alwaysRepaint(false);
 }
 
 
@@ -82,9 +82,11 @@ public void paint(){}
 * from the APEngine.
 */
 public void cleanup(){
+if(sprite!=null){
 sprite.getGraphics().clear();
 for (int i = 0; i < sprite.numChildren(); i++) {
 sprite.removeChildAt(i);
+}
 }
 }
 
@@ -124,7 +126,9 @@ return visible;
 */
 public void visible(boolean v){
 visible = v;
+if(sprite!=null){
 sprite.setVisible(v);
+}
 }
 
 

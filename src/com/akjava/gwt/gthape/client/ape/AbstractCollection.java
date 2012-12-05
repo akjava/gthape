@@ -58,7 +58,7 @@ private boolean isParented;
 
 public  AbstractCollection() {
 
-isParented = false;
+isParented(false);
 particles = new ArrayList<AbstractParticle>();
 constraints = new ArrayList<AbstractConstraint>();
 }

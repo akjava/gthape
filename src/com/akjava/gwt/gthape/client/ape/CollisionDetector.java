@@ -36,7 +36,7 @@ package com.akjava.gwt.gthape.client.ape;
 * to the CollisionResolver class.
 */
  static void test(AbstractParticle objA,AbstractParticle objB){
-
+	
 if (objA.fixed() && objB.fixed()) return;
 
 if (objA.multisample() == 0 && objB.multisample() == 0) {

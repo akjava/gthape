@@ -34,6 +34,7 @@ dont involve non-collidable constraints
 import java.util.ArrayList;
 
 import com.akjava.gwt.gthape.client.display.DisplayObjectContainer;
+import com.google.gwt.core.client.JavaScriptObject;
 
 /**
 * The main engine class.
@@ -291,4 +292,23 @@ Group g = groups.get(j);
 g.checkCollisions();
 }
 }
+
+
+public static final native void log(JavaScriptObject object)/*-{
+if (navigator.appName == 'Microsoft Internet Explorer'){
+	return;
+}
+if(console){
+console.log(object);
+}
+}-*/;
+public static final native void log(String object)/*-{
+if (navigator.appName == 'Microsoft Internet Explorer'){
+	return;
+}
+if(console){
+console.log(object);
+}
+}-*/;
+
 }

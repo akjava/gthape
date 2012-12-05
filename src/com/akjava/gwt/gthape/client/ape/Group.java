@@ -53,7 +53,7 @@ private boolean collideInternal;
 public  Group(boolean collideInternal){
 composites = new ArrayList<Composite>();
 collisionList = new ArrayList<Group>();
-this.collideInternal = collideInternal;
+collideInternal(collideInternal);
 }
 
 
