@@ -124,7 +124,7 @@ public class GTHApeTest implements EntryPoint {
 			public void run() {
 				stats.begin();
 				if(doInit){
-					LogUtils.log("init");
+					//LogUtils.log("init");
 					init();
 					doInit=false;
 				}
@@ -363,7 +363,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 		
 		Object3D obj=threeObjects.get(partile);
 		if(obj==null){
-			LogUtils.log("obj created");
+			//LogUtils.log("obj created");
 			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(128, 0, 0, 1, (int)(hw*2), (int)(hh*2)));
 			
 			obj=CSS3DObject.createObject(img.getElement());

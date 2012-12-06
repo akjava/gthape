@@ -2,7 +2,6 @@ package com.akjava.gwt.gthapetest.client.cardemo;
 
 import com.akjava.gwt.gthape.client.ape.APEngine;
 import com.akjava.gwt.gthape.client.ape.Vector;
-import com.akjava.gwt.lib.client.LogUtils;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
