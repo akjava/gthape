@@ -71,7 +71,7 @@ tan = new Vector(0,0);
 normSlip = new Vector(0,0);
 rp = new RimParticle(radius, 2);
 
-this.traction = traction;
+this.traction(traction);
 orientation = new Vector();
 }
 
