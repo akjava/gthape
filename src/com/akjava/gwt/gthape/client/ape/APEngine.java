@@ -228,6 +228,11 @@ g.init();
 }
 
 
+public static ArrayList<Group> getGroups() {
+	return groups;
+}
+
+
 /**
 * @private
 */

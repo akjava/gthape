@@ -178,7 +178,7 @@ return restLength;
 */
 public void restLength(double r){
 if (r <= 0) throw new RuntimeException("restLength must be greater than 0");
-restLength(r);
+restLength=r;
 }
 
 
