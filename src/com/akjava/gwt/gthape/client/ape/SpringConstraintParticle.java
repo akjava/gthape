@@ -246,7 +246,7 @@ curr.setTo(c.x, c.y);
 
 width((scaleToLength) ? parent.currLength() * rectScale : parent.restLength() * rectScale);
 height(rectHeight);
-radian = parent.radian();
+radian(parent.radian());
 }
 
 
@@ -346,7 +346,7 @@ private void setCorners(RectangleParticle r,int i){
 double rx = r.curr.x;
 double ry = r.curr.y;
 
-Vector[] axes = r.axes;//TODO need clone?
+Vector[] axes = r.axes;
 double[] extents = r.extents;
 
 double ae0_x = axes[0].x * extents[0];
