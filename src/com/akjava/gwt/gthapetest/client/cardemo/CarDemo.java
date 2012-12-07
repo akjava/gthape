@@ -2,11 +2,12 @@ package com.akjava.gwt.gthapetest.client.cardemo;
 
 import com.akjava.gwt.gthape.client.ape.APEngine;
 import com.akjava.gwt.gthape.client.ape.Vector;
+import com.akjava.gwt.gthapetest.client.ApeDemo;
 import com.google.gwt.event.dom.client.KeyCodes;
 import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 
-public class CarDemo {
+public class CarDemo implements ApeDemo{
 
 	private Car car;
 	private Rotator rotator;
@@ -69,10 +70,15 @@ public class CarDemo {
 	}
 	
 	public void speed(double t){
-		car.speed(t);
+		car.speed(t*0.2);
 	}
 	public void KeyUp(KeyUpEvent event) {
 		
 		car.speed(0);
+	}
+	@Override
+	public void didpose() {
+		// TODO Auto-generated method stub
+		
 	}
 }
