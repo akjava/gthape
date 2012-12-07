@@ -1,5 +1,9 @@
 package com.akjava.gwt.gthape.client.display;
-
+/**
+ * @deprecated sprite removed
+ * @author aki
+ *
+ */
 public interface Sprite extends DisplayObject{
 public Graphics getGraphics();
 public void addChild(Object object);//TODO should i displayobject?

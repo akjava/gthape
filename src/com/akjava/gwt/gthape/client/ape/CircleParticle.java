@@ -81,6 +81,8 @@ radius = r;
 */
 public  void init(){
 cleanup();
+
+/*
 if (displayObject != null) {
 initDisplay();
 } else {
@@ -92,6 +94,7 @@ sprite.getGraphics().drawCircle(0, 0, radius);
 sprite.getGraphics().endFill();
 }
 }
+*/
 paint();
 }
 
@@ -102,10 +105,12 @@ paint();
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
 public  void paint(){
+	/*
 if(sprite!=null){	
 sprite.setX(curr.x);
 sprite.setY(curr.y);
 }
+*/
 }
 
 

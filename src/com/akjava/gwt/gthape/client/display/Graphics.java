@@ -1,5 +1,9 @@
 package com.akjava.gwt.gthape.client.display;
-
+/**
+ * @deprecated sprite removed
+ * @author aki
+ *
+ */
 public interface Graphics {
 public void clear();
 

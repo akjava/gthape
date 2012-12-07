@@ -27,7 +27,7 @@ TODO:
 - Should have alwaysRepaint functionality for Constraints, and bump up to AbstractItem- See if there's anywhere where Vectors can be downgraded to simple Point classes*/
 
 
-import com.akjava.gwt.gthape.client.display.DisplayObject;
+//import com.akjava.gwt.gthape.client.display.DisplayObject;
 /*** The abstract base class for all particles.** <p>* You should not instantiate this class directly -- instead use one of the subclasses.* </p>*/
 public abstract class AbstractParticle extends AbstractItem {
 
@@ -71,7 +71,7 @@ this.mass(mass);
 this.elasticity(elasticity);
 this.friction(friction);
 
-setStyle();
+//setStyle();
 
 center = new Vector();
 multisample(0);
@@ -320,12 +320,13 @@ collidable = b;
 * Assigns a DisplayObject to be used when painting this particle.
 */
 //offsetX=0,offsetY=0,rotation=0
+/*
 public void setDisplay(DisplayObject d,double offsetX,double offsetY,double rotation){
 displayObject = d;
 displayObjectRotation = rotation;
 displayObjectOffset = new Vector(offsetX, offsetY);
 }
-
+*/
 
 /**
 * Adds a force to the particle. The mass of the particle is taken into
@@ -383,12 +384,13 @@ forces.setTo(0,0);
 * @private
 */
 void initDisplay(){
+	/*
 if(displayObject!=null && sprite!=null){//TODO remove	
 displayObject.setX( displayObjectOffset.x);
 displayObject.setY(displayObjectOffset.y);
 displayObject.setRotation(displayObjectRotation);
 sprite.addChild(displayObject);
-}
+}*/
 }
 
 

@@ -142,13 +142,14 @@ traction = 1 - t;
 * APE particle and constraint classes, or is a composite of them. Then within that
 * class you can define your own custom painting method.
 */
-public  void paint(){
+public  void paint(){/*
 if(sprite==null){
 	return;
 }
 sprite.setX(curr.x);
 sprite.setY(curr.y);
 sprite.setRotation(angle());
+*/
 }
 
 
@@ -158,6 +159,7 @@ sprite.setRotation(angle());
 */
 public  void init(){
 cleanup();
+/*
 if (displayObject != null) {
 initDisplay();
 } else {
@@ -178,6 +180,7 @@ sprite.getGraphics().lineTo(0, radius());
 }
 }
 paint();
+*/
 }
 
 

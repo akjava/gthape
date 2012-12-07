@@ -35,7 +35,7 @@ package com.akjava.gwt.gthape.client.ape;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.akjava.gwt.gthape.client.display.Sprite;
+//import com.akjava.gwt.gthape.client.display.Sprite;
 
 
 
@@ -50,7 +50,7 @@ import com.akjava.gwt.gthape.client.display.Sprite;
 public abstract class AbstractCollection {
 
 
-private Sprite sprite;
+//private Sprite sprite;
 protected ArrayList<AbstractParticle> particles;
 protected ArrayList<AbstractConstraint> constraints;
 private boolean isParented;
@@ -153,6 +153,7 @@ constraints.get(i).init();
 * <code>paint()</code> method.
 */
 public void paint(){
+/*	
 
 AbstractParticle p;
 int len = particles.size();
@@ -169,6 +170,7 @@ c = constraints.get(i);
 //if ((! c.fixed()) || c.alwaysRepaint()) c.paint();//constraint have no fixed.//TODO research it again later
 if (c.alwaysRepaint()) c.paint();
 }
+*/
 }
 
 

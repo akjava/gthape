@@ -116,7 +116,9 @@ radian = a * MathUtil.PI_OVER_ONE_EIGHTY;
 * RectangleParticle is added to a Composite or Group.
 */
 public  void init(){
+	
 cleanup();
+/*
 if (displayObject != null) {
 initDisplay();
 } else {
@@ -132,6 +134,7 @@ sprite.getGraphics().endFill();
 }
 }
 paint();
+*/
 }
 
 
@@ -141,11 +144,13 @@ paint();
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
 public  void paint(){
+	/*
 if(sprite!=null){	
 sprite.setX(curr.x);
 sprite.setY(curr.y);
 sprite.setRotation(angle());
 }
+*/
 }
 
 

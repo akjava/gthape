@@ -1,7 +1,7 @@
 package com.akjava.gwt.gthape.client.ape;
 
-import com.akjava.gwt.gthape.client.display.Builders;
-import com.akjava.gwt.gthape.client.display.Sprite;
+//import com.akjava.gwt.gthape.client.display.Builders;
+//import com.akjava.gwt.gthape.client.display.Sprite;
 
 /*
 Copyright (c) 2006, 2007 Alec Cove
@@ -171,10 +171,11 @@ return avgVelocity;
 
 
 public  void init(){
+/*	
 if (displayObject != null) {
 initDisplay();
 } else {
-/*	
+
 Sprite inner = Builders.getSpliteBuilder().createSprite();
 parent.sprite.addChild(inner);
 inner.setName("inner");
@@ -187,13 +188,14 @@ inner.getGraphics().lineStyle(parent.lineThickness, parent.lineColor, parent.lin
 inner.getGraphics().beginFill(parent.fillColor, parent.fillAlpha);
 inner.getGraphics().drawRect(-w/2, -h/2, w, h);
 inner.getGraphics().endFill();
-*/
+
 }
 paint();
+*/
 }
 
 
-public  void paint(){
+public  void paint(){/*
 
 Vector c = parent.center();
 Sprite s = parent.sprite;
@@ -208,6 +210,7 @@ s.getChildByName("inner").setWidth( parent.restLength() * rectScale);
 s.setX(c.x);
 s.setY(c.y);
 s.setRotation(parent.angle());
+*/
 }
 
 
@@ -215,6 +218,7 @@ s.setRotation(parent.angle());
 * @private
 */
 void initDisplay(){
+	/*
 displayObject.setX(displayObjectOffset.x);
 displayObject.setY(displayObjectOffset.y);
 displayObject.setRotation(displayObjectRotation);
@@ -224,6 +228,7 @@ inner.setName("inner");
 
 inner.addChild(displayObject);
 parent.sprite.addChild(inner);
+*/
 }
 
 

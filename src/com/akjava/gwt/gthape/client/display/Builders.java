@@ -1,5 +1,10 @@
 package com.akjava.gwt.gthape.client.display;
 
+/**
+ * @deprecated sprite removed
+ * @author aki
+ *
+ */
 public class Builders {
 private static SpriteBuilder spliteBuilder;
 

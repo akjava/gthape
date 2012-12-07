@@ -30,7 +30,7 @@ TODO:
 */
 package com.akjava.gwt.gthape.client.ape;
 
-import com.akjava.gwt.gthape.client.display.DisplayObject;
+//import com.akjava.gwt.gthape.client.display.DisplayObject;
 
 /**
 * A Spring-like constraint that connects two particles
@@ -250,13 +250,16 @@ return (p1.fixed() && p2.fixed());
 * SpringContraint is added to a Composite or Group.
 */
 public  void init(){
+	
 cleanup();
+/*
 if (collidable) {
 scp.init();
 } else if (displayObject != null) {
 initDisplay();
 }
 paint();
+*/
 }
 
 
@@ -266,7 +269,7 @@ paint();
 * method, then create a subclass of this class and override <code>paint()</code>.
 */
 public  void paint(){
-
+/*
 if (collidable) {
 scp.paint();
 } else if (displayObject != null) {
@@ -284,6 +287,7 @@ sprite.getGraphics().moveTo(p1.px(), p1.py());
 sprite.getGraphics().lineTo(p2.px(), p2.py());
 }
 }
+*/
 }
 
 
@@ -291,6 +295,7 @@ sprite.getGraphics().lineTo(p2.px(), p2.py());
 * Assigns a DisplayObject to be used when painting this constraint.
 */
 //offsetX=0,offsetY=0,rotation=0
+/*
 public void setDisplay(DisplayObject d,double offsetX,double offsetY,double rotation){
 
 if (collidable) {
@@ -301,12 +306,14 @@ displayObjectRotation = rotation;
 displayObjectOffset = new Vector(offsetX, offsetY);
 }
 }
+*/
 
 
 /**
 * @private
 */
  void initDisplay(){
+	/* 
 if (collidable) {
 scp.initDisplay();
 } else {
@@ -315,6 +322,7 @@ displayObject.setY(displayObjectOffset.y);
 displayObject.setRotation(displayObjectRotation);
 sprite.addChild(displayObject);
 }
+*/
 }
 
 

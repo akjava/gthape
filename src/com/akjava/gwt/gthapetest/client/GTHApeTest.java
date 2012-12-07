@@ -64,7 +64,7 @@ public class GTHApeTest implements EntryPoint {
 		VerticalPanel root=new VerticalPanel();
 		RootPanel.get().add(root);
 		
-		APEngine.container(new ArrayListDisplayObjectContainer());
+		//APEngine.container(new ArrayListDisplayObjectContainer());
 		
 		carDemo = new CarDemo();
 		carDemo.initialize();
@@ -195,7 +195,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 	long last;
 	
 	boolean doInit;
-	
+	public static Map<Object,>
 	private void init(){
 		/*
 		 * initialize faild.car something faild

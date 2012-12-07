@@ -33,7 +33,7 @@ dont involve non-collidable constraints
 
 import java.util.ArrayList;
 
-import com.akjava.gwt.gthape.client.display.DisplayObjectContainer;
+//import com.akjava.gwt.gthape.client.display.DisplayObjectContainer;
 import com.google.gwt.core.client.JavaScriptObject;
 
 /**
@@ -52,7 +52,7 @@ private static int numGroups ;
 private static double timeStep ;
 
 private static double damping ;
-public static DisplayObjectContainer container ;
+//public static DisplayObjectContainer container ;
 
 private static int constraintCycles ;
 private static int constraintCollisionCycles ;
@@ -176,18 +176,20 @@ constraintCollisionCycles = numCycles;
 *
 * @param s An instance of the Sprite class that will be used as the default container.
 */
+/*
 public static DisplayObjectContainer container(){
 return container;
 }
-
+*/
 
 /**
 * @private
 */
+/*
 public static void container(DisplayObjectContainer d){
 container = d;
 }
-
+*/
 
 /**
 * Adds a force to all particles in the system. The mass of the particle is taken into

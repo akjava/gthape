@@ -1,5 +1,9 @@
 package com.akjava.gwt.gthape.client.display;
-
+/**
+ * @deprecated sprite removed
+ * @author aki
+ *
+ */
 public interface DisplayObject {
 public void setX(double x);
 public void setY(double y);

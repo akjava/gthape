@@ -40,7 +40,7 @@ private double stiffness;
 public AbstractConstraint(double stiffness){
 
 stiffness(stiffness);
-setStyle();
+//setStyle();
 }
 
 

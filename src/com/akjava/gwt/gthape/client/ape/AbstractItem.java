@@ -25,36 +25,36 @@ TODO:
 
 package com.akjava.gwt.gthape.client.ape;
 
-import com.akjava.gwt.gthape.client.display.Builders;
-import com.akjava.gwt.gthape.client.display.DisplayObject;
-import com.akjava.gwt.gthape.client.display.Sprite;
+//import com.akjava.gwt.gthape.client.display.Builders;
+//import com.akjava.gwt.gthape.client.display.DisplayObject;
+//import com.akjava.gwt.gthape.client.display.Sprite;
 
 /**
 * The base class for all constraints and particles
 */
 public abstract class AbstractItem {
 
-protected Sprite sprite;
+//protected Sprite sprite;
 private boolean visible;
 private boolean alwaysRepaint;
 
 
 /** @private */
-double lineThickness;
+//double lineThickness;
 /** @private */
-int lineColor;
+//int lineColor;
 /** @private */
-double lineAlpha;
+//double lineAlpha;
 /** @private */
-int fillColor;
+//int fillColor;
 /** @private */
-double fillAlpha;
+//double fillAlpha;
 /** @private */
-DisplayObject displayObject;
+//DisplayObject displayObject;
 /** @private */
-Vector displayObjectOffset;
+//Vector displayObjectOffset;
 /** @private */
-double displayObjectRotation;
+//double displayObjectRotation;
 
 
 public AbstractItem() {
@@ -81,13 +81,13 @@ public void paint(){}
 * This method is called automatically when an item's parent group is removed
 * from the APEngine.
 */
-public void cleanup(){
+public void cleanup(){/*
 if(sprite!=null){
 sprite.getGraphics().clear();
 for (int i = 0; i < sprite.numChildren(); i++) {
 sprite.removeChildAt(i);
 }
-}
+}*/
 }
 
 
@@ -126,9 +126,11 @@ return visible;
 */
 public void visible(boolean v){
 visible = v;
+/*
 if(sprite!=null){
 sprite.setVisible(v);
 }
+*/
 }
 
 
@@ -136,6 +138,7 @@ sprite.setVisible(v);
 * Sets the line and fill of this Item.
 */
 //lineThickness=0,lineColor=0x000000,lineAlpha=1,fillColor=0xffffff,fillAlpha=1
+/*
 public void setStyle(){
 	setStyle(0,0,1,0xffffff,1);
 }
@@ -144,34 +147,37 @@ public void setStyle(double lineThickness,int lineColor,double lineAlpha,int fil
 setLine(lineThickness, lineColor, lineAlpha);
 setFill(fillColor, fillAlpha);
 }
-
+*/
 
 /**
 * Sets the style of the line for this Item.
 */
 //thickness=0,color=0x000000,alpha=1
+/*
 public void setLine(double thickness,int color,double alpha){
 lineThickness = thickness;
 lineColor = color;
 lineAlpha = alpha;
 }
-
+*/
 
 /**
 * Sets the style of the fill for this Item.
 */
 //color=0xffffff,alpha=1
+/*
 public void setFill(int color,double alpha){
 fillColor = color;
 fillAlpha = alpha;
 }
-
+*/
 
 /**
 * Provides a Sprite to use as a container for drawing or adding children. When the
 * sprite is requested for the first time it is automatically added to the global
 * container in the APEngine class.
 */
+/*
 public Sprite sprite(){
 
 if (sprite != null) return sprite;
@@ -184,4 +190,5 @@ sprite = Builders.getSpliteBuilder().createSprite();
 APEngine.container().addChild(sprite);
 return sprite;
 }
+*/
 }
