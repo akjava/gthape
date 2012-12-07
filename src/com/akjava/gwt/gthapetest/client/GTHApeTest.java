@@ -121,14 +121,17 @@ public class GTHApeTest implements EntryPoint {
 		Timer timer=new Timer(){
 
 			@Override
-			public void run() {
+			public void run() {//wait?
+				long t=System.currentTimeMillis();
+				LogUtils.log(""+(t-last));
+				last=t;
 				stats.begin();
 				if(doInit){
 					//LogUtils.log("init");
 					init();
 					doInit=false;
 				}
-				//objRoot.getRotation().incrementX(0.01);
+				
 				updateCanvas();
 				stats.end();
 			}
@@ -189,7 +192,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 		
 	}
 	
-	
+	long last;
 	
 	boolean doInit;
 	
