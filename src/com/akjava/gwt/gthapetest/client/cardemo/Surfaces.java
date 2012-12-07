@@ -3,6 +3,7 @@ package com.akjava.gwt.gthapetest.client.cardemo;
 import com.akjava.gwt.gthape.client.ape.CircleParticle;
 import com.akjava.gwt.gthape.client.ape.Group;
 import com.akjava.gwt.gthape.client.ape.RectangleParticle;
+import com.akjava.gwt.gthapetest.client.GTHApeTest;
 
 public class Surfaces extends Group{
 public Surfaces(){
@@ -38,6 +39,7 @@ public Surfaces(){
 	RectangleParticle bouncePad=new RectangleParticle(30,370,32,60,0,true, 1.0, 0.3, 0);
 	
 	bouncePad.elasticity(4);
+	GTHApeTest.colorMap.put(bouncePad, 0xff0000);
 	addParticle(bouncePad);
 	
 	RectangleParticle leftWall=new RectangleParticle(1,99,30,500,0,true, 1.0, 0.3, 0);

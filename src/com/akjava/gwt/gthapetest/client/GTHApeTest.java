@@ -24,6 +24,7 @@ import com.akjava.gwt.three.client.cameras.Camera;
 import com.akjava.gwt.three.client.core.Object3D;
 import com.akjava.gwt.three.client.experiments.CSS3DObject;
 import com.akjava.gwt.three.client.experiments.CSS3DRenderer;
+import com.akjava.gwt.three.client.extras.ColorUtils;
 import com.akjava.gwt.three.client.scenes.Scene;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
@@ -123,7 +124,7 @@ public class GTHApeTest implements EntryPoint {
 			@Override
 			public void run() {//wait?
 				long t=System.currentTimeMillis();
-				LogUtils.log(""+(t-last));
+				//LogUtils.log(""+(t-last));
 				last=t;
 				stats.begin();
 				if(doInit){
@@ -195,11 +196,12 @@ Button init=new Button("initialize position",new ClickHandler() {
 	long last;
 	
 	boolean doInit;
-	public static Map<Object,>
+	public static Map<Object,Integer> colorMap=new HashMap<Object, Integer>();
 	private void init(){
 		/*
 		 * initialize faild.car something faild
 		 */
+		
 		carDemo.initialize();
 		threeObjects.clear();
 		threeSprings.clear();
@@ -296,7 +298,17 @@ Button init=new Button("initialize position",new ClickHandler() {
 		}
 		Object3D obj=threeSprings.get(cons);
 		if(obj==null){
-			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(0, 0, 128, 1, (int)length, (int)height));
+			Integer color=colorMap.get(cons);
+			int r=128;
+			int g=0;
+			int b=0;
+			if(color!=null){
+				int[]rgb=com.akjava.lib.common.utils.ColorUtils.toRGB(color);
+				r=rgb[0];
+				g=rgb[1];
+				b=rgb[2];
+			}
+			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)length, (int)height));
 			obj=CSS3DObject.createObject(img.getElement());
 			objRoot.add(obj);
 			threeSprings.put(cons, obj);
@@ -316,19 +328,19 @@ Button init=new Button("initialize position",new ClickHandler() {
 
 	private FocusPanel focusPanel;
 	
-	private void fillParticle(CircleParticle partile) {
-		double x=partile.px();
-		double y=partile.py();
-		double hw=partile.radius();
+	private void fillParticle(CircleParticle particle) {
+		double x=particle.px();
+		double y=particle.py();
+		double hw=particle.radius();
 		
 		
 		
-		Object3D obj=threeObjects.get(partile);
+		Object3D obj=threeObjects.get(particle);
 		if(obj==null){
 			Image img=new Image(CanvasUtils.createCircleImageDataUrl(128, 0, 0, 1, (int)(hw), 3,false));
 			obj=CSS3DObject.createObject(img.getElement());
 			objRoot.add(obj);
-			threeObjects.put(partile, obj);
+			threeObjects.put(particle, obj);
 		}
 		obj.setPosition(x, -y, 0);
 		
@@ -336,19 +348,19 @@ Button init=new Button("initialize position",new ClickHandler() {
 		//canvas.getContext2d().fillRect(x-hw, y-hw, hw*2, hw*2);//TODO draw circle
 	}
 	
-	private void fillParticle(WheelParticle partile) {
-		double x=partile.px();
-		double y=partile.py();
-		double hw=partile.radius();
-		double a=partile.radian();
+	private void fillParticle(WheelParticle particle) {
+		double x=particle.px();
+		double y=particle.py();
+		double hw=particle.radius();
+		double a=particle.radian();
 		
 		
-		Object3D obj=threeObjects.get(partile);
+		Object3D obj=threeObjects.get(particle);
 		if(obj==null){
 			Image img=new Image(createWheelDataUrl(128, 0, 0, 1, (int)(hw), 2,true));
 			obj=CSS3DObject.createObject(img.getElement());
 			objRoot.add(obj);
-			threeObjects.put(partile, obj);
+			threeObjects.put(particle, obj);
 		}
 		obj.setPosition(x, -y, 0);
 		obj.setRotation(0, 0, -a);
@@ -356,23 +368,34 @@ Button init=new Button("initialize position",new ClickHandler() {
 		//canvas.getContext2d().fillRect(x-hw, y-hw, hw*2, hw*2);//TODO draw circle
 	}
 
-	public void fillParticle(RectangleParticle partile){
-		double x=partile.px();
-		double y=partile.py();
-		double hw=partile.width()/2;
-		double hh=partile.height()/2;
-		double a=partile.radian();
+	public void fillParticle(RectangleParticle particle){
+		double x=particle.px();
+		double y=particle.py();
+		double hw=particle.width()/2;
+		double hh=particle.height()/2;
+		double a=particle.radian();
 		
 		
-		Object3D obj=threeObjects.get(partile);
+		Object3D obj=threeObjects.get(particle);
 		if(obj==null){
+			Integer color=colorMap.get(particle);
+			int r=128;
+			int g=0;
+			int b=0;
+			if(color!=null){
+				int[]rgb=com.akjava.lib.common.utils.ColorUtils.toRGB(color);
+				r=rgb[0];
+				g=rgb[1];
+				b=rgb[2];
+				LogUtils.log("rgbed:"+r+","+g+","+b);
+			}
 			//LogUtils.log("obj created");
-			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(128, 0, 0, 1, (int)(hw*2), (int)(hh*2)));
+			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)(hw*2), (int)(hh*2)));
 			
 			obj=CSS3DObject.createObject(img.getElement());
 			//obj=CSS3DObject.createObject(new Label("hello").getElement());
 			objRoot.add(obj);
-			threeObjects.put(partile, obj);
+			threeObjects.put(particle, obj);
 		}
 		obj.setPosition(x, -y, 0);
 		obj.setRotation(0, 0, -a);
