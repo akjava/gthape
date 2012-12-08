@@ -81,4 +81,9 @@ public class CarDemo implements ApeDemo{
 		// TODO Auto-generated method stub
 		
 	}
+	@Override
+	public String getName() {
+		// TODO Auto-generated method stub
+		return "CarDemo";
+	}
 }

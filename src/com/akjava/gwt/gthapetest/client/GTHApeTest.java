@@ -2,7 +2,10 @@ package com.akjava.gwt.gthapetest.client;
 
 
 
+import java.io.IOException;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.akjava.gwt.gthape.client.ape.APEngine;
@@ -16,6 +19,7 @@ import com.akjava.gwt.gthape.client.ape.SpringConstraint;
 import com.akjava.gwt.gthape.client.ape.Vector;
 import com.akjava.gwt.gthape.client.ape.WheelParticle;
 import com.akjava.gwt.gthapetest.client.cardemo.CarDemo;
+import com.akjava.gwt.gthapetest.client.imagewave.ImageWaveDemo;
 import com.akjava.gwt.lib.client.CanvasUtils;
 import com.akjava.gwt.lib.client.LogUtils;
 import com.akjava.gwt.stats.client.Stats;
@@ -24,7 +28,6 @@ import com.akjava.gwt.three.client.cameras.Camera;
 import com.akjava.gwt.three.client.core.Object3D;
 import com.akjava.gwt.three.client.experiments.CSS3DObject;
 import com.akjava.gwt.three.client.experiments.CSS3DRenderer;
-import com.akjava.gwt.three.client.extras.ColorUtils;
 import com.akjava.gwt.three.client.scenes.Scene;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
@@ -34,6 +37,9 @@ import com.google.gwt.event.dom.client.KeyDownEvent;
 import com.google.gwt.event.dom.client.KeyDownHandler;
 import com.google.gwt.event.dom.client.KeyUpEvent;
 import com.google.gwt.event.dom.client.KeyUpHandler;
+import com.google.gwt.event.logical.shared.ValueChangeEvent;
+import com.google.gwt.event.logical.shared.ValueChangeHandler;
+import com.google.gwt.text.shared.Renderer;
 import com.google.gwt.user.client.Timer;
 import com.google.gwt.user.client.ui.Button;
 import com.google.gwt.user.client.ui.FocusPanel;
@@ -41,8 +47,8 @@ import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
 import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.ValueListBox;
 import com.google.gwt.user.client.ui.VerticalPanel;
-import com.ibm.icu.impl.CalendarAstronomer.Horizon;
 
 public class GTHApeTest implements EntryPoint {
 
@@ -60,15 +66,21 @@ public class GTHApeTest implements EntryPoint {
 	int width=650;
 	int height=400;
 	Object3D objRoot;
+	
+	List<ApeDemo> demos=new ArrayList<ApeDemo>();
 	@Override
 	public void onModuleLoad() {
 		VerticalPanel root=new VerticalPanel();
 		RootPanel.get().add(root);
 		
+		demos.add(new CarDemo());
+		demos.add(new ImageWaveDemo());
 		//APEngine.container(new ArrayListDisplayObjectContainer());
 		
-		carDemo = new CarDemo();
-		carDemo.initialize();
+		//apeDemo = new CarDemo();
+		//apeDemo=new ImageWaveDemo();
+		
+		//apeDemo.initialize();
 		
 		//APEngine.step();
 		
@@ -96,14 +108,14 @@ public class GTHApeTest implements EntryPoint {
 			
 			@Override
 			public void onKeyDown(KeyDownEvent event) {
-				carDemo.keyDown(event);
+				apeDemo.keyDown(event);
 			}
 		});
 		focusPanel.addKeyUpHandler(new KeyUpHandler() {
 			
 			@Override
 			public void onKeyUp(KeyUpEvent event) {
-				carDemo.KeyUp(event);
+				apeDemo.KeyUp(event);
 			}
 		});
 		focusPanel.setFocus(true);
@@ -148,6 +160,43 @@ public class GTHApeTest implements EntryPoint {
 		
 
 	HorizontalPanel buttons=new HorizontalPanel();	
+	
+	
+	ValueListBox<ApeDemo> demosList=new ValueListBox<ApeDemo>(new Renderer<ApeDemo>() {
+
+		@Override
+		public String render(ApeDemo object) {
+			if(object==null){
+				return null;
+			}
+			return object.getName();
+		}
+
+		@Override
+		public void render(ApeDemo object, Appendable appendable)
+				throws IOException {
+			
+		}
+	});
+	demosList.addValueChangeHandler(new ValueChangeHandler<ApeDemo>() {
+		
+		@Override
+		public void onValueChange(ValueChangeEvent<ApeDemo> event) {
+			
+			init();//remove
+			apeDemo=event.getValue();
+			apeDemo.initialize();
+		}
+	});
+	demosList.setValue(demos.get(0));
+	demosList.setAcceptableValues(demos);
+	
+	buttons.add(demosList);
+	
+	apeDemo=demos.get(0);
+	apeDemo.initialize();
+	
+	
 Button init=new Button("initialize position",new ClickHandler() {
 			
 			@Override
@@ -163,10 +212,10 @@ Button init=new Button("initialize position",new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				carDemo.speed(-0.2);
+				apeDemo.speed(-1);
 				Timer t=new Timer(){
 					public void run(){
-						carDemo.speed(0);
+						apeDemo.speed(0);
 					}
 				};
 				t.schedule(500);
@@ -179,10 +228,10 @@ Button init=new Button("initialize position",new ClickHandler() {
 			
 			@Override
 			public void onClick(ClickEvent event) {
-				carDemo.speed(0.2);
+				apeDemo.speed(1);
 				Timer t=new Timer(){
 					public void run(){
-						carDemo.speed(0);
+						apeDemo.speed(0);
 					}
 				};
 				t.schedule(500);
@@ -201,8 +250,10 @@ Button init=new Button("initialize position",new ClickHandler() {
 		/*
 		 * initialize faild.car something faild
 		 */
+		if(apeDemo!=null){
+		apeDemo.initialize();
+		}
 		
-		carDemo.initialize();
 		threeObjects.clear();
 		threeSprings.clear();
 		
@@ -219,6 +270,9 @@ Button init=new Button("initialize position",new ClickHandler() {
 	}
 	
 	private void updateCanvas() {
+		if(apeDemo==null){
+			return;//useless
+		}
 		renderer.render(scene, camera);
 		
 		int totalItem=0;
@@ -281,8 +335,11 @@ Button init=new Button("initialize position",new ClickHandler() {
 		//LogUtils.log("obj:"+scene.objects().length());
 		//LogUtils.log("total:"+totalItem);
 		
-		APEngine.step();
-		carDemo.step();
+		
+		
+			APEngine.step();
+			apeDemo.step();
+		
 	}
 	
 	private void fillConstraint(SpringConstraint cons) {
@@ -324,7 +381,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 	
 
 
-	private CarDemo carDemo;
+	private ApeDemo apeDemo;
 
 	private FocusPanel focusPanel;
 	
@@ -387,7 +444,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 				r=rgb[0];
 				g=rgb[1];
 				b=rgb[2];
-				LogUtils.log("rgbed:"+r+","+g+","+b);
+				
 			}
 			//LogUtils.log("obj created");
 			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)(hw*2), (int)(hh*2)));
