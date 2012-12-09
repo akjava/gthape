@@ -23,8 +23,8 @@ public class MainUi extends Composite  {
 		initWidget(uiBinder.createAndBindUi(this));
 		
 		
-		final Button b=(Button) renderer.getWidget(0);
-		b.getElement().addClassName("active");
+		final Button b=(Button) renderer.getWidget(2);//css3d is default
+		b.getElement().addClassName("active");// newer bootstrap support it
 		b.addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
