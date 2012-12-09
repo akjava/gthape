@@ -28,9 +28,14 @@ import com.akjava.gwt.three.client.cameras.Camera;
 import com.akjava.gwt.three.client.core.Object3D;
 import com.akjava.gwt.three.client.experiments.CSS3DObject;
 import com.akjava.gwt.three.client.experiments.CSS3DRenderer;
+import com.akjava.gwt.three.client.lights.Light;
+import com.akjava.gwt.three.client.materials.MeshBasicMaterialBuilder;
+import com.akjava.gwt.three.client.renderers.WebGLRenderer;
 import com.akjava.gwt.three.client.scenes.Scene;
+import com.akjava.gwt.three.client.textures.Texture;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
+import com.google.gwt.dom.client.Style.Unit;
 import com.google.gwt.event.dom.client.ClickEvent;
 import com.google.gwt.event.dom.client.ClickHandler;
 import com.google.gwt.event.dom.client.KeyDownEvent;
@@ -46,9 +51,8 @@ import com.google.gwt.user.client.ui.FocusPanel;
 import com.google.gwt.user.client.ui.HTMLPanel;
 import com.google.gwt.user.client.ui.HorizontalPanel;
 import com.google.gwt.user.client.ui.Image;
-import com.google.gwt.user.client.ui.RootPanel;
+import com.google.gwt.user.client.ui.RootLayoutPanel;
 import com.google.gwt.user.client.ui.ValueListBox;
-import com.google.gwt.user.client.ui.VerticalPanel;
 
 public class GTHApeTest implements EntryPoint {
 
@@ -60,7 +64,7 @@ public class GTHApeTest implements EntryPoint {
 
 	private Camera camera;
 
-	private CSS3DRenderer renderer;
+	private WebGLRenderer renderer;
 
 	private Scene scene;
 	int width=650;
@@ -68,10 +72,33 @@ public class GTHApeTest implements EntryPoint {
 	Object3D objRoot;
 	
 	List<ApeDemo> demos=new ArrayList<ApeDemo>();
+	//private String currentRendererType="css3d";
+	private void switchRenderer(String type){
+		init();
+		if(renderer.gwtGetType().equals(type)){
+			return;
+		}
+		focusPanel.clear();
+		HTMLPanel div=new HTMLPanel("");
+		if(type.equals("css3d")){
+			renderer = THREE.CSS3DRenderer();
+		}else if(type.equals("webgl")){
+			renderer=THREE.WebGLRenderer();
+		}else{//canvas
+			renderer=THREE.CanvasRenderer();
+		}
+		renderer.setSize(width, height);
+		div.getElement().appendChild(renderer.getDomElement());
+		renderer.gwtSetType(type);
+		focusPanel.add(div);
+	}
 	@Override
 	public void onModuleLoad() {
-		VerticalPanel root=new VerticalPanel();
-		RootPanel.get().add(root);
+		
+		
+		
+		main = new MainUi();
+		RootLayoutPanel.get().add(main);
 		
 		demos.add(new CarDemo());
 		demos.add(new ImageWaveDemo());
@@ -95,15 +122,24 @@ public class GTHApeTest implements EntryPoint {
 		camera.getPosition().setZ(700);
 		camera.getPosition().setX(0);
 		camera.getPosition().setY(-150);
+		
+		
+		light = THREE.PointLight(0xffffff);
+		light.setPosition(10, 0, 10);
+		scene.add(light);
+		
+		
 		//camera.getRotation().setZ(Math.toRadians(180)); //fliphorizontaled
 		renderer = THREE.CSS3DRenderer();
+		renderer.gwtSetType("css3d");
 		renderer.setSize(width, height);
+		
 		
 		HTMLPanel div=new HTMLPanel("");
 		div.getElement().appendChild(renderer.getDomElement());
 		focusPanel = new FocusPanel();
 		focusPanel.add(div);
-		root.add(focusPanel);
+		main.getCenter().add(focusPanel);
 		focusPanel.addKeyDownHandler(new KeyDownHandler() {
 			
 			@Override
@@ -120,6 +156,25 @@ public class GTHApeTest implements EntryPoint {
 		});
 		focusPanel.setFocus(true);
 		
+		main.getWebglButton().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				switchRenderer("webgl");
+			}
+		});
+		main.getCanvasButton().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				switchRenderer("canvas");
+			}
+		});
+		main.getCss3dButton().addClickHandler(new ClickHandler() {
+			@Override
+			public void onClick(ClickEvent event) {
+				switchRenderer("css3d");
+			}
+		});
+		
 		/*
 		canvas = Canvas.createIfSupported();
 		canvas.setSize("600px", "600px");
@@ -129,6 +184,7 @@ public class GTHApeTest implements EntryPoint {
 		root.add(canvas);
 		*/
 		final Stats stats=Stats.insertStatsToRootPanel();
+		stats.domElement().getStyle().setWidth(90.0, Unit.PX);
 		//stats.setPosition(8, 0);
 		
 		Timer timer=new Timer(){
@@ -160,7 +216,7 @@ public class GTHApeTest implements EntryPoint {
 		
 
 	HorizontalPanel buttons=new HorizontalPanel();	
-	
+	buttons.setVerticalAlignment(HorizontalPanel.ALIGN_MIDDLE);
 	
 	ValueListBox<ApeDemo> demosList=new ValueListBox<ApeDemo>(new Renderer<ApeDemo>() {
 
@@ -205,7 +261,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 				focusPanel.setFocus(true);
 			}
 		});
-		root.add(buttons);
+		main.getButtons().add(buttons);
 		buttons.add(init);
 		
 		Button prev=new Button("<- Back",new ClickHandler() {
@@ -257,7 +313,10 @@ Button init=new Button("initialize position",new ClickHandler() {
 		threeObjects.clear();
 		threeSprings.clear();
 		
-		renderer.gwtClear();
+		if(renderer.gwtGetType().equals("css3d")){
+		LogUtils.log("renderer is css3d and initialize");
+		((CSS3DRenderer)renderer).gwtClear();
+		}
 		
 		scene = THREE.Scene();
 		scene.add(camera);
@@ -266,6 +325,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 		objRoot.setPosition(-width/2, 0, 0);
 		scene.add(objRoot);
 		
+		scene.add(light);		
 		//LogUtils.log("renderer:"+renderer.getCameraElement().getChildNodes().getLength());
 	}
 	
@@ -342,6 +402,52 @@ Button init=new Button("initialize position",new ClickHandler() {
 		
 	}
 	
+	
+	private Object3D createColorCircleObject(int r,int g,int b,double alpha,int radius,boolean stroke){
+		Object3D object;
+		Canvas canvas=CanvasUtils.createCircleImageCanvas(r, g, b, alpha, (int)(radius), 3,stroke);
+		Texture texture=THREE.Texture(canvas.getCanvasElement());
+		texture.setNeedsUpdate(true);
+		if(!renderer.gwtGetType().equals("css3d")){
+			MeshBasicMaterialBuilder basicMaterial=MeshBasicMaterialBuilder.create().map(texture);
+			object=THREE.Mesh(THREE.PlaneGeometry(radius*2, radius*2), 
+					basicMaterial.build());
+		}else{
+			Image img=new Image(canvas.toDataUrl());
+			object=CSS3DObject.createObject(img.getElement());
+		}
+		return object;
+	}
+	
+	private Object3D createCanvasObject(Canvas canvas,int w,int h){
+		Object3D object;
+		Texture texture=THREE.Texture(canvas.getCanvasElement());
+		texture.setNeedsUpdate(true);
+		if(!renderer.gwtGetType().equals("css3d")){
+			MeshBasicMaterialBuilder basicMaterial=MeshBasicMaterialBuilder.create().map(texture);
+			object=THREE.Mesh(THREE.PlaneGeometry(w, h), 
+					basicMaterial.build());
+		}else{
+			Image img=new Image(canvas.toDataUrl());
+			object=CSS3DObject.createObject(img.getElement());
+		}
+		return object;
+	}
+	
+	private Object3D createColorRectObject(int r,int g,int b,double alpha,int width,int height){
+		Object3D object;
+		if(!renderer.gwtGetType().equals("css3d")){
+			MeshBasicMaterialBuilder basicMaterial=MeshBasicMaterialBuilder.create().color(r,g,b).opacity(alpha)
+					.transparent(true);
+			object=THREE.Mesh(THREE.PlaneGeometry(width, height), 
+					basicMaterial.build());
+		}else{
+			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)width, (int)height));
+			object=CSS3DObject.createObject(img.getElement());
+		}
+		return object;
+	}
+	
 	private void fillConstraint(SpringConstraint cons) {
 		Vector vec=cons.center();
 		
@@ -365,8 +471,10 @@ Button init=new Button("initialize position",new ClickHandler() {
 				g=rgb[1];
 				b=rgb[2];
 			}
-			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)length, (int)height));
-			obj=CSS3DObject.createObject(img.getElement());
+			//Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)length, (int)height));
+			obj=createColorRectObject(r,g,b,1,(int)length,(int)height);
+			
+			
 			objRoot.add(obj);
 			threeSprings.put(cons, obj);
 		}
@@ -384,6 +492,10 @@ Button init=new Button("initialize position",new ClickHandler() {
 	private ApeDemo apeDemo;
 
 	private FocusPanel focusPanel;
+
+	public static MainUi main;
+
+	private Light light;
 	
 	private void fillParticle(CircleParticle particle) {
 		double x=particle.px();
@@ -394,8 +506,8 @@ Button init=new Button("initialize position",new ClickHandler() {
 		
 		Object3D obj=threeObjects.get(particle);
 		if(obj==null){
-			Image img=new Image(CanvasUtils.createCircleImageDataUrl(128, 0, 0, 1, (int)(hw), 3,false));
-			obj=CSS3DObject.createObject(img.getElement());
+			//Image img=new Image(CanvasUtils.createCircleImageDataUrl(128, 0, 0, 1, (int)(hw), 3,false));
+			obj=createColorCircleObject(128, 0, 0, 1, (int)(hw),false);
 			objRoot.add(obj);
 			threeObjects.put(particle, obj);
 		}
@@ -414,8 +526,8 @@ Button init=new Button("initialize position",new ClickHandler() {
 		
 		Object3D obj=threeObjects.get(particle);
 		if(obj==null){
-			Image img=new Image(createWheelDataUrl(128, 0, 0, 1, (int)(hw), 2,true));
-			obj=CSS3DObject.createObject(img.getElement());
+			Canvas canvas=createWheelCanvas(128, 0, 0, 1, (int)(hw), 2,true);
+			obj=createCanvasObject(canvas,(int)hw*2,(int)hw*2);
 			objRoot.add(obj);
 			threeObjects.put(particle, obj);
 		}
@@ -447,9 +559,8 @@ Button init=new Button("initialize position",new ClickHandler() {
 				
 			}
 			//LogUtils.log("obj created");
-			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)(hw*2), (int)(hh*2)));
 			
-			obj=CSS3DObject.createObject(img.getElement());
+			obj=createColorRectObject(r,g,b,1,(int)(hw*2), (int)(hh*2));
 			//obj=CSS3DObject.createObject(new Label("hello").getElement());
 			objRoot.add(obj);
 			threeObjects.put(particle, obj);
@@ -459,7 +570,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 	}
 	
 
-	public static String createWheelDataUrl(int r,int g,int b,double opacity,double radius,double lineWidth,boolean stroke){
+	public static Canvas createWheelCanvas(int r,int g,int b,double opacity,double radius,double lineWidth,boolean stroke){
 		double center=radius+lineWidth;
 		Canvas canvas=CanvasUtils.createCanvas((int)center*2,(int)center*2);
 		if(stroke){
@@ -489,7 +600,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 		canvas.getContext2d().closePath();
 		canvas.getContext2d().stroke();
 		
-		String image1=canvas.toDataUrl();
-		return image1;
+		
+		return canvas;
 	}
 }

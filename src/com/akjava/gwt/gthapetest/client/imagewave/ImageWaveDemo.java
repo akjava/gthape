@@ -1,6 +1,7 @@
 package com.akjava.gwt.gthapetest.client.imagewave;
 
 import com.akjava.gwt.gthapetest.client.ApeDemo;
+import com.akjava.gwt.gthapetest.client.GTHApeTest;
 import com.akjava.gwt.lib.client.CanvasUtils;
 import com.akjava.gwt.lib.client.ImageElementListener;
 import com.akjava.gwt.lib.client.ImageElementLoader;
@@ -37,7 +38,8 @@ private AbstractEightSplitter splitter;
 		if(src==null){
 		loading=true;
 		drawCanvas=CanvasUtils.createCanvas(400, 400);
-		RootPanel.get().add(drawCanvas);
+		GTHApeTest.main.getBottom().add(drawCanvas);
+		//RootPanel.get().add(drawCanvas);
 		
 		
 		ImageElementLoader loader=new ImageElementLoader();
