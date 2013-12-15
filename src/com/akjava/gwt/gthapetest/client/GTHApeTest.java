@@ -23,16 +23,17 @@ import com.akjava.gwt.gthapetest.client.imagewave.ImageWaveDemo;
 import com.akjava.gwt.lib.client.CanvasUtils;
 import com.akjava.gwt.lib.client.LogUtils;
 import com.akjava.gwt.stats.client.Stats;
-import com.akjava.gwt.three.client.THREE;
-import com.akjava.gwt.three.client.cameras.Camera;
-import com.akjava.gwt.three.client.core.Object3D;
-import com.akjava.gwt.three.client.experiments.CSS3DObject;
-import com.akjava.gwt.three.client.experiments.CSS3DRenderer;
-import com.akjava.gwt.three.client.lights.Light;
-import com.akjava.gwt.three.client.materials.MeshBasicMaterialBuilder;
-import com.akjava.gwt.three.client.renderers.WebGLRenderer;
-import com.akjava.gwt.three.client.scenes.Scene;
-import com.akjava.gwt.three.client.textures.Texture;
+import com.akjava.gwt.three.client.examples.renderers.CSS3DObject;
+import com.akjava.gwt.three.client.examples.renderers.CSS3DRenderer;
+import com.akjava.gwt.three.client.js.THREE;
+import com.akjava.gwt.three.client.js.cameras.Camera;
+import com.akjava.gwt.three.client.js.core.Object3D;
+import com.akjava.gwt.three.client.js.lights.Light;
+import com.akjava.gwt.three.client.js.materials.MeshBasicMaterialParameter;
+import com.akjava.gwt.three.client.js.math.Euler;
+import com.akjava.gwt.three.client.js.renderers.WebGLRenderer;
+import com.akjava.gwt.three.client.js.scenes.Scene;
+import com.akjava.gwt.three.client.js.textures.Texture;
 import com.google.gwt.canvas.client.Canvas;
 import com.google.gwt.core.client.EntryPoint;
 import com.google.gwt.dom.client.Style.Unit;
@@ -84,6 +85,7 @@ public class GTHApeTest implements EntryPoint {
 			renderer = THREE.CSS3DRenderer();
 		}else if(type.equals("webgl")){
 			renderer=THREE.WebGLRenderer();
+			renderer.setClearColor(0xffffff, 1);
 		}else{//canvas
 			renderer=THREE.CanvasRenderer();
 		}
@@ -130,8 +132,9 @@ public class GTHApeTest implements EntryPoint {
 		
 		
 		//camera.getRotation().setZ(Math.toRadians(180)); //fliphorizontaled
-		renderer = THREE.CSS3DRenderer();
-		renderer.gwtSetType("css3d");
+		//renderer = THREE.CSS3DRenderer();
+		renderer = THREE.CanvasRenderer();
+		renderer.gwtSetType("canvas");
 		renderer.setSize(width, height);
 		
 		
@@ -168,12 +171,14 @@ public class GTHApeTest implements EntryPoint {
 				switchRenderer("canvas");
 			}
 		});
+		/*
 		main.getCss3dButton().addClickHandler(new ClickHandler() {
 			@Override
 			public void onClick(ClickEvent event) {
 				switchRenderer("css3d");
 			}
 		});
+		*/
 		
 		/*
 		canvas = Canvas.createIfSupported();
@@ -409,9 +414,8 @@ Button init=new Button("initialize position",new ClickHandler() {
 		Texture texture=THREE.Texture(canvas.getCanvasElement());
 		texture.setNeedsUpdate(true);
 		if(!renderer.gwtGetType().equals("css3d")){
-			MeshBasicMaterialBuilder basicMaterial=MeshBasicMaterialBuilder.create().map(texture);
 			object=THREE.Mesh(THREE.PlaneGeometry(radius*2, radius*2), 
-					basicMaterial.build());
+					THREE.MeshBasicMaterial(MeshBasicMaterialParameter.create().map(texture).transparent(true)));
 		}else{
 			Image img=new Image(canvas.toDataUrl());
 			object=CSS3DObject.createObject(img.getElement());
@@ -424,9 +428,9 @@ Button init=new Button("initialize position",new ClickHandler() {
 		Texture texture=THREE.Texture(canvas.getCanvasElement());
 		texture.setNeedsUpdate(true);
 		if(!renderer.gwtGetType().equals("css3d")){
-			MeshBasicMaterialBuilder basicMaterial=MeshBasicMaterialBuilder.create().map(texture);
+			
 			object=THREE.Mesh(THREE.PlaneGeometry(w, h), 
-					basicMaterial.build());
+					THREE.MeshBasicMaterial(MeshBasicMaterialParameter.create().map(texture).transparent(true)));
 		}else{
 			Image img=new Image(canvas.toDataUrl());
 			object=CSS3DObject.createObject(img.getElement());
@@ -437,10 +441,9 @@ Button init=new Button("initialize position",new ClickHandler() {
 	private Object3D createColorRectObject(int r,int g,int b,double alpha,int width,int height){
 		Object3D object;
 		if(!renderer.gwtGetType().equals("css3d")){
-			MeshBasicMaterialBuilder basicMaterial=MeshBasicMaterialBuilder.create().color(r,g,b).opacity(alpha)
-					.transparent(true);
+			
 			object=THREE.Mesh(THREE.PlaneGeometry(width, height), 
-					basicMaterial.build());
+					THREE.MeshBasicMaterial(MeshBasicMaterialParameter.create().color(r,g,b).opacity(alpha).transparent(true)));
 		}else{
 			Image img=new Image(CanvasUtils.createColorRectImageDataUrl(r, g, b, 1, (int)width, (int)height));
 			object=CSS3DObject.createObject(img.getElement());
@@ -532,7 +535,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 			threeObjects.put(particle, obj);
 		}
 		obj.setPosition(x, -y, 0);
-		obj.setRotation(0, 0, -a);
+		obj.getRotation().set(0, 0, -a,Euler.XYZ);
 		
 		//canvas.getContext2d().fillRect(x-hw, y-hw, hw*2, hw*2);//TODO draw circle
 	}
@@ -566,7 +569,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 			threeObjects.put(particle, obj);
 		}
 		obj.setPosition(x, -y, 0);
-		obj.setRotation(0, 0, -a);
+		obj.getRotation().set(0, 0, -a,Euler.XYZ);
 	}
 	
 

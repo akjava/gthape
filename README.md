@@ -1,6 +1,8 @@
 GTHApe
 ======
 Ape0.45a port to GWT
+
+ape is physics engine.
 http://www.cove.org/ape/
 
 License:MIT License
@@ -14,11 +16,7 @@ I use ape,because of code is small and seems easy to modifier.and I had a code f
 Demo:
 http://akjava.github.com/gthape/
 
-Windows7 64bit Chrome seems fine
-iOS-5 on first ipad seems fine
-Android4.0 Chrome little bit unstable on css3d renderer.
-Android4.0 default browser not so good on css3d renderer.
-css3d-renderer is experimental feature on three.js
+Windows7 64bit Chrome seems fine both webgl and canvas
 
 Related-Project:
 my GWT-Three.js - https://github.com/akjava/gwt-three.js-test
