@@ -37,13 +37,13 @@ private AbstractEightSplitter splitter;
 		}
 		if(src==null){
 		loading=true;
-		drawCanvas=CanvasUtils.createCanvas(400, 400);
-		GTHApeTest.main.getBottom().add(drawCanvas);
+		drawCanvas=CanvasUtils.createCanvas(240, 240);
+		GTHApeTest.main.getSides().add(drawCanvas);
 		//RootPanel.get().add(drawCanvas);
 		
 		
 		ImageElementLoader loader=new ImageElementLoader();
-		loader.load("img/largecat.png", new ImageElementListener() {
+		loader.load("img/largecat.jpg", new ImageElementListener() {
 			
 			@Override
 			public void onLoad(ImageElement element) {

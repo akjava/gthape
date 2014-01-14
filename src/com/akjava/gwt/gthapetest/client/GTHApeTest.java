@@ -68,8 +68,8 @@ public class GTHApeTest implements EntryPoint {
 	private WebGLRenderer renderer;
 
 	private Scene scene;
-	int width=650;
-	int height=400;
+	int width=440;
+	int height=280;
 	Object3D objRoot;
 	
 	List<ApeDemo> demos=new ArrayList<ApeDemo>();
@@ -122,8 +122,8 @@ public class GTHApeTest implements EntryPoint {
 		camera = THREE.PerspectiveCamera(35,(double)width/height,.1,10000);
 		scene.add(camera);
 		camera.getPosition().setZ(700);
-		camera.getPosition().setX(0);
-		camera.getPosition().setY(-150);
+		camera.getPosition().setX(100);
+		camera.getPosition().setY(-140);
 		
 		
 		light = THREE.PointLight(0xffffff);
@@ -268,6 +268,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 		});
 		main.getButtons().add(buttons);
 		buttons.add(init);
+		init.setHeight("40px");
 		
 		Button prev=new Button("<- Back",new ClickHandler() {
 			
@@ -284,6 +285,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 		});
 		
 		buttons.add(prev);
+		prev.setSize("100px", "40px");
 		
 		Button next=new Button("Foward ->",new ClickHandler() {
 			
@@ -300,7 +302,7 @@ Button init=new Button("initialize position",new ClickHandler() {
 		});
 		
 		buttons.add(next);
-		
+		next.setSize("100px", "40px");
 	}
 	
 	long last;

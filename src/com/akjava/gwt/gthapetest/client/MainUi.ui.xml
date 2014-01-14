@@ -21,11 +21,15 @@ xmlns:g="urn:import:com.google.gwt.user.client.ui" xmlns:b="urn:import:com.githu
 
     </b:Navbar>
 <g:VerticalPanel>
-<g:VerticalPanel ui:field="center" width="400px" height="400px"></g:VerticalPanel>
-<g:HorizontalPanel verticalAlignment="MIDDLE" ui:field="buttons">
-
-
+<g:HorizontalPanel verticalAlignment="MIDDLE">
+<g:VerticalPanel ui:field="center" width="400px" height="280px"></g:VerticalPanel>
+<g:VerticalPanel verticalAlignment="MIDDLE" ui:field="sides">
+</g:VerticalPanel>
 </g:HorizontalPanel>
+
+<g:HorizontalPanel verticalAlignment="MIDDLE" ui:field="buttons">
+</g:HorizontalPanel>
+
 </g:VerticalPanel>
 
 <div align="center">
